@@ -9,7 +9,7 @@ import androidx.annotation.RequiresApi;
 import io.flic.lib.FlicBroadcastReceiver;
 import io.flic.lib.FlicButton;
 
-public class FunctionFlicBroadcastReceiver extends FlicBroadcastReceiver {
+public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
     @Override
     protected void onRequestAppCredentials(Context context) {
         FlicConfig.setFlicCredentials();
