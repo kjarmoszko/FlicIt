@@ -20,10 +20,10 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
     public void onButtonSingleOrDoubleClickOrHold(Context context, FlicButton button, boolean wasQueued, int timeDiff, boolean isSingleClick, boolean isDoubleClick, boolean isHold){
         if(isSingleClick) {
             Toast.makeText(context, "Single Click", Toast.LENGTH_SHORT).show();
-            Functionalities.getInstance().flashLightOn();
+            Functionalities.getInstance(context).flashLightOn();
         } else if (isDoubleClick) {
             Toast.makeText(context, "Double Click", Toast.LENGTH_SHORT).show();
-            Functionalities.getInstance().flashLightOff();
+            Functionalities.getInstance(context).flashLightOff();
         } else if (isHold) {
             Toast.makeText(context, "Hold", Toast.LENGTH_SHORT).show();
         }

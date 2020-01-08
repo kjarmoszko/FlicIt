@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         FlicConfig.setFlicCredentials();
-        Functionalities.getInstance().setContext(this);
 
         flicButton = (Button) findViewById(R.id.flicButton);
 
@@ -34,38 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
         viewAllButton = (Button) findViewById(R.id.viewAllButton); //db test
         viewAll(); //db test
-    }
-
-    public void grabButton(View v) {
-        try {
-            FlicManager.getInstance(this, new FlicManagerInitializedCallback() {
-                @Override
-                public void onInitialized(FlicManager manager) {
-                    manager.initiateGrabButton(MainActivity.this);
-                }
-
-            });
-        } catch (FlicAppNotInstalledException err) {
-            Toast.makeText(this, "Flic App is not installed", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        FlicManager.getInstance(this, new FlicManagerInitializedCallback() {
-            @Override
-            public void onInitialized(FlicManager manager) {
-                FlicButton button = manager.completeGrabButton(requestCode, resultCode, data);
-                if (button != null) {
-                    button.registerListenForBroadcast(FlicBroadcastReceiverFlags.CLICK_OR_DOUBLE_CLICK_OR_HOLD);
-                    DatabaseHelper.getInstance(MainActivity.this).addButton(button.getButtonId());
-                    Toast.makeText(MainActivity.this, "Grabbed a button", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "Did not grab any button", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     public void viewAll() { //db test
