@@ -17,8 +17,8 @@ import io.flic.lib.FlicManager;
 import io.flic.lib.FlicManagerInitializedCallback;
 
 public class MainActivity extends AppCompatActivity {
-    private DatabaseHelper myDb;
     private Button viewAllButton;
+    private Button flicButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
         FlicConfig.setFlicCredentials();
         Functionalities.getInstance().setContext(this);
-        myDb = new DatabaseHelper(this);
 
-        viewAllButton = (Button) findViewById(R.id.viewAllButton);
-        viewAll();
+        flicButton = (Button) findViewById(R.id.flicButton);
+
+        flicManage();
+
+        viewAllButton = (Button) findViewById(R.id.viewAllButton); //db test
+        viewAll(); //db test
     }
 
     public void grabButton(View v) {
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 FlicButton button = manager.completeGrabButton(requestCode, resultCode, data);
                 if (button != null) {
                     button.registerListenForBroadcast(FlicBroadcastReceiverFlags.CLICK_OR_DOUBLE_CLICK_OR_HOLD);
-                    myDb.addButton(button.getButtonId());
+                    DatabaseHelper.getInstance(MainActivity.this).addButton(button.getButtonId());
                     Toast.makeText(MainActivity.this, "Grabbed a button", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MainActivity.this, "Did not grab any button", Toast.LENGTH_SHORT).show();
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         viewAllButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cursor res = myDb.getAllData();
+                Cursor res = DatabaseHelper.getInstance(MainActivity.this).getAllData();
                 if(res.getCount() == 0) {
                     //show massage
                     showMassage("Error", "No data");
@@ -95,4 +98,13 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
+    public void flicManage() {
+        flicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FlicManageActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 }

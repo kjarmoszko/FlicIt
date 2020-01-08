@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".FlicManageActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,11 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".FlicItBroadcastReceiver"
+
+        <receiver
+            android:name=".FlicItBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="io.flic.FLICLIB_EVENT"/>
+                <action android:name="io.flic.FLICLIB_EVENT" />
             </intent-filter>
         </receiver>
     </application>

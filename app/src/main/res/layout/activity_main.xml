@@ -18,6 +18,13 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:onClick="grabButton"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Flic"
+        android:id="@+id/flicButton"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/button"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -25,6 +32,6 @@
         android:text="view all"
         android:id="@+id/viewAllButton"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/button"/>
+        android:layout_below="@id/flicButton"/>
 
 </RelativeLayout>

@@ -7,10 +7,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.provider.ContactsContract;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Button.db";
+    private static DatabaseHelper instance;
+
+    private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_NAME = "Button.db";
+
+    public static synchronized DatabaseHelper getInstance(Context context){
+        if(instance == null) {
+            instance = new DatabaseHelper(context.getApplicationContext());
+        }
+        return instance;
+    }
 
     public static class Table implements BaseColumns {
         public static final String TABLE_NAME = "button";
@@ -30,7 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + Table.TABLE_NAME;
 
-    public DatabaseHelper(Context context) {
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

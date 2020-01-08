@@ -10,15 +10,16 @@ import androidx.annotation.RequiresApi;
 public class Functionalities {
     private Context context;
 
-    private static final Functionalities instance = new Functionalities();
+    private static Functionalities instance;
 
-    private Functionalities() {}
-
-    public static Functionalities getInstance() {
-        return instance;
-    }
-    public void setContext(Context context) {
+    private Functionalities(Context context) {
         this.context = context;
+    }
+
+    public static synchronized Functionalities getInstance(Context context) {
+        if (instance == null)
+            instance = new Functionalities(context);
+        return instance;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
