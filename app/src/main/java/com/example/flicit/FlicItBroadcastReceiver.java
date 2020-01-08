@@ -32,6 +32,9 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                 case 3:
                     Functionalities.getInstance(context).blinkFlash();
                     break;
+                case 4:
+                    Functionalities.getInstance(context).soundAlarm();
+                    break;
                 default:
                     break;
             }
@@ -49,6 +52,9 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                 case 3:
                     Functionalities.getInstance(context).blinkFlash();
                     break;
+                case 4:
+                    Functionalities.getInstance(context).soundAlarm();
+                    break;
                 default:
                     break;
             }
@@ -65,6 +71,9 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                     break;
                 case 3:
                     Functionalities.getInstance(context).blinkFlash();
+                    break;
+                case 4:
+                    Functionalities.getInstance(context).soundAlarm();
                     break;
                 default:
                     break;

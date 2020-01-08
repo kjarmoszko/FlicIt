@@ -3,6 +3,8 @@ package com.example.flicit;
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -35,6 +37,7 @@ public class Functionalities {
 
         }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void flashLightOff() {
         CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
@@ -47,6 +50,7 @@ public class Functionalities {
 
         }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void blinkFlash() {
         CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
@@ -78,5 +82,13 @@ public class Functionalities {
                 e.printStackTrace();
             }
         }
+    }
+
+    protected void soundAlarm() {
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, AudioManager.FLAG_SHOW_UI);
+        MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.car_alarm);
+        mediaPlayer.start();
     }
 }

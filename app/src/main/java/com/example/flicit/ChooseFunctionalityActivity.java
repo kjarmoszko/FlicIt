@@ -44,8 +44,15 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
         setResult(RESULT_OK, functionality);
         finish();
     }
+
     public void flashButtonClicked(View v) {
         functionality.putExtra("functionality", "3");
+        setResult(RESULT_OK, functionality);
+        finish();
+    }
+
+    public void soundAlarmButtonClicked(View v) {
+        functionality.putExtra("functionality", "4");
         setResult(RESULT_OK, functionality);
         finish();
     }
