@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    tools:context=".ChooseFunctionalityActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="None"
+        android:id="@+id/noneButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:onClick="noneButtonClicked"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Light On"
+        android:id="@+id/lightOnButton"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/noneButton"
+        android:onClick="lightOnButtonClicked"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Light Off"
+        android:id="@+id/lightOffButton"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/lightOnButton"
+        android:onClick="lightOffButtonClicked"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Flash"
+        android:id="@+id/flashButton"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lightOffButton"
+        android:onClick="flashButtonClicked"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:id="@+id/cancelButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:onClick="cancelButtonClicked"/>
+
+</RelativeLayout>

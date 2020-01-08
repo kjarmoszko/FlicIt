@@ -8,9 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import io.flic.lib.FlicAppNotInstalledException;
@@ -63,7 +61,7 @@ public class FlicManageActivity extends AppCompatActivity {
     }
 
     private void getConnectedFlics() {
-        linearLayout = (LinearLayout) findViewById(R.id.linear);
+        linearLayout = findViewById(R.id.linear);
         linearLayout.removeAllViews();
         Cursor cursor = DatabaseHelper.getInstance(this).getAllData();
         while (cursor.moveToNext()) {
@@ -72,7 +70,9 @@ public class FlicManageActivity extends AppCompatActivity {
             button.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(FlicManageActivity.this, button.getText().toString() + " clicked", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(FlicManageActivity.this, ClickChangeActivity.class);
+                    intent.putExtra("mac", button.getText().toString());
+                    startActivity(intent);
                 }
             });
             linearLayout.addView(button);

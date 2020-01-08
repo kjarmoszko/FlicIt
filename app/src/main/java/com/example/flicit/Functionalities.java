@@ -47,4 +47,36 @@ public class Functionalities {
 
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    protected void blinkFlash() {
+        CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        String myString = "0101010101";
+        long blinkDelay = 50; //Delay in ms
+        for (int i = 0; i < myString.length(); i++) {
+            if (myString.charAt(i) == '0') {
+                try {
+                    String cameraId = cameraManager.getCameraIdList()[0];
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        cameraManager.setTorchMode(cameraId, true);
+                    }
+                } catch (CameraAccessException e) {
+
+                }
+            } else {
+                try {
+                    String cameraId = cameraManager.getCameraIdList()[0];
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        cameraManager.setTorchMode(cameraId, false);
+                    }
+                } catch (CameraAccessException e) {
+
+                }
+            }
+            try {
+                Thread.sleep(blinkDelay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

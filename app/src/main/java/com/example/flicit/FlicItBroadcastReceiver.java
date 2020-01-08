@@ -17,15 +17,58 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onButtonSingleOrDoubleClickOrHold(Context context, FlicButton button, boolean wasQueued, int timeDiff, boolean isSingleClick, boolean isDoubleClick, boolean isHold){
-        if(isSingleClick) {
+    public void onButtonSingleOrDoubleClickOrHold(Context context, FlicButton button, boolean wasQueued, int timeDiff, boolean isSingleClick, boolean isDoubleClick, boolean isHold) {
+        if (isSingleClick) {
             Toast.makeText(context, "Single Click", Toast.LENGTH_SHORT).show();
-            Functionalities.getInstance(context).flashLightOn();
+            switch (DatabaseHelper.getInstance(context).getFunctionality(button.getButtonId(), 1)) {
+                case 0:
+                    break;
+                case 1:
+                    Functionalities.getInstance(context).flashLightOn();
+                    break;
+                case 2:
+                    Functionalities.getInstance(context).flashLightOff();
+                    break;
+                case 3:
+                    Functionalities.getInstance(context).blinkFlash();
+                    break;
+                default:
+                    break;
+            }
         } else if (isDoubleClick) {
             Toast.makeText(context, "Double Click", Toast.LENGTH_SHORT).show();
-            Functionalities.getInstance(context).flashLightOff();
+            switch (DatabaseHelper.getInstance(context).getFunctionality(button.getButtonId(), 2)) {
+                case 0:
+                    break;
+                case 1:
+                    Functionalities.getInstance(context).flashLightOn();
+                    break;
+                case 2:
+                    Functionalities.getInstance(context).flashLightOff();
+                    break;
+                case 3:
+                    Functionalities.getInstance(context).blinkFlash();
+                    break;
+                default:
+                    break;
+            }
         } else if (isHold) {
             Toast.makeText(context, "Hold", Toast.LENGTH_SHORT).show();
+            switch (DatabaseHelper.getInstance(context).getFunctionality(button.getButtonId(), 0)) {
+                case 0:
+                    break;
+                case 1:
+                    Functionalities.getInstance(context).flashLightOn();
+                    break;
+                case 2:
+                    Functionalities.getInstance(context).flashLightOff();
+                    break;
+                case 3:
+                    Functionalities.getInstance(context).blinkFlash();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
