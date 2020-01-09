@@ -6,6 +6,8 @@ import android.hardware.camera2.CameraManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 
 import androidx.annotation.RequiresApi;
 
@@ -90,5 +92,13 @@ public class Functionalities {
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, AudioManager.FLAG_SHOW_UI);
         MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.car_alarm);
         mediaPlayer.start();
+    }
+
+
+    protected void vibrate() {
+        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
+        }
     }
 }

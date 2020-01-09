@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class ChooseFunctionalityActivity extends AppCompatActivity {
-    Button noneButton, lightOnButton, lightOffButton, flashButton, cancelButton;
+//    Button noneButton, lightOnButton, lightOffButton, flashButton, cancelButton;
     Intent functionality;
 
     @Override
@@ -16,11 +16,11 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_functionality);
 
-        noneButton = (Button) findViewById(R.id.noneButton);
-        lightOnButton = (Button) findViewById(R.id.lightOnButton);
-        lightOffButton = (Button) findViewById(R.id.lightOffButton);
-        flashButton = (Button) findViewById(R.id.flashButton);
-        cancelButton = (Button) findViewById(R.id.cancelButton);
+//        noneButton = (Button) findViewById(R.id.noneButton);
+//        lightOnButton = (Button) findViewById(R.id.lightOnButton);
+//        lightOffButton = (Button) findViewById(R.id.lightOffButton);
+//        flashButton = (Button) findViewById(R.id.flashButton);
+//        cancelButton = (Button) findViewById(R.id.cancelButton);
 
         functionality = new Intent();
     }
@@ -53,6 +53,12 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
 
     public void soundAlarmButtonClicked(View v) {
         functionality.putExtra("functionality", "4");
+        setResult(RESULT_OK, functionality);
+        finish();
+    }
+
+    public void vibrateButtonClicked(View v) {
+        functionality.putExtra("functionality", "5");
         setResult(RESULT_OK, functionality);
         finish();
     }

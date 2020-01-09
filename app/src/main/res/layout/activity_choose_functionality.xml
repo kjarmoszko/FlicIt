@@ -44,13 +44,22 @@
         android:onClick="flashButtonClicked"/>
 
     <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Sound Alarm"
+    android:id="@+id/soundAlarmButton"
+    android:layout_alignParentLeft="true"
+    android:layout_below="@+id/flashButton"
+    android:onClick="soundAlarmButtonClicked"/>
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sound Alarm"
-        android:id="@+id/soundAlarmButton"
+        android:text="Vibrate"
+        android:id="@+id/vibrateButton"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/flashButton"
-        android:onClick="soundAlarmButtonClicked"/>
+        android:layout_below="@+id/soundAlarmButton"
+        android:onClick="vibrateButtonClicked"/>
 
     <Button
         android:layout_width="wrap_content"
