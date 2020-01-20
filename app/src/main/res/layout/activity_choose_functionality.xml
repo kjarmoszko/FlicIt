@@ -21,26 +21,18 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Light On"
-        android:id="@+id/lightOnButton"
+        android:text="Flashlight"
+        android:id="@+id/flashlightButton"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/noneButton"
-        android:onClick="lightOnButtonClicked"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Light Off"
-        android:id="@+id/lightOffButton"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/lightOnButton"
-        android:onClick="lightOffButtonClicked"/>
+        android:layout_below="@id/noneButton"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Flash"
         android:id="@+id/flashButton"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/lightOffButton"
+        android:layout_below="@+id/flashlightButton"
         android:onClick="flashButtonClicked"/>
 
     <Button

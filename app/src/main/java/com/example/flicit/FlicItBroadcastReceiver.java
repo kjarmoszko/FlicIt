@@ -24,10 +24,10 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                 case 0:
                     break;
                 case 1:
-                    Functionalities.getInstance(context).flashLightOn();
+                    Functionalities.getInstance(context).flashlightService();
                     break;
                 case 2:
-                    Functionalities.getInstance(context).flashLightOff();
+
                     break;
                 case 3:
                     Functionalities.getInstance(context).blinkFlash();
@@ -47,10 +47,10 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                 case 0:
                     break;
                 case 1:
-                    Functionalities.getInstance(context).flashLightOn();
+                    Functionalities.getInstance(context).flashlightService();
                     break;
                 case 2:
-                    Functionalities.getInstance(context).flashLightOff();
+
                     break;
                 case 3:
                     Functionalities.getInstance(context).blinkFlash();
@@ -70,10 +70,10 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                 case 0:
                     break;
                 case 1:
-                    Functionalities.getInstance(context).flashLightOn();
+                    Functionalities.getInstance(context).flashlightService();
                     break;
                 case 2:
-                    Functionalities.getInstance(context).flashLightOff();
+
                     break;
                 case 3:
                     Functionalities.getInstance(context).blinkFlash();

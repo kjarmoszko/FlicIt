@@ -20,8 +20,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int REQUEST_CALL = 1;
-    private static final int PICK_CONTACT = 2;
     private static final int CAMERA_REQUEST = 3;
     private boolean flashlightOn = false;
     private ImageView phoneButton;
@@ -61,37 +59,13 @@ public class MainActivity extends AppCompatActivity {
                 if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST);
                 } else {
-                    flashlightService();
+                    Functionalities.getInstance(MainActivity.this).flashlightService();
                 }
             }
         });
 
         lockButton = (ImageView) findViewById(R.id.lockButton); //db test
         viewAll(); //db test
-    }
-
-    public void flashlightService() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
-            try {
-                String cameraId = cameraManager.getCameraIdList()[0];
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (flashlightOn) {
-                        cameraManager.setTorchMode(cameraId, false);
-                        flashlightOn = false;
-                    } else {
-                        cameraManager.setTorchMode(cameraId, true);
-                        flashlightOn = true;
-                    }
-                }
-
-            } catch (CameraAccessException e) {
-
-            }
-
-        }
-
-
     }
 
     public void viewAll() { //db test
@@ -126,12 +100,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getNumberFromContacts() {
-//        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_CONTACTS}, PICK_CONTACT);
-//        } else {
-//            Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-//            startActivityForResult(intent, PICK_CONTACT);
-//        }
         Intent intent = new Intent(MainActivity.this, ContactListActivity.class);
         startActivity(intent);
     }
@@ -141,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case CAMERA_REQUEST:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    flashlightService();
+                    Functionalities.getInstance(MainActivity.this).flashlightService();
                 } else {
                     Toast.makeText(this, "Flashlight Permission DENIED", Toast.LENGTH_SHORT).show();
                 }
@@ -232,17 +200,17 @@ public class MainActivity extends AppCompatActivity {
     Blokada:
         blokowanie komórki z ekranem z przyciskiem odblokowania, dużym zegarem i ewentualnie że ktoś dzwonił, wysłał wiadomość
     Aplikacja:
-        przerobienie aplikacji na ekran głowny
+        przerobienie aplikacji na ekran głowny, uruchamianie po starcie i obsługa flica nawet po zamknięciu aplikacji
         usunięcie górnego paska
         zrobienie na górze zegarka i siły sygnału telefnicznego
+        ##checkfunctionalities wywalić do oddzielnej klasy?##
     Funkcjonalności:
         znajdz telefon
-        poprawna latarka
-        asysten google
+        asystent google
         odbierz telefon i włącz głośnomówiący
         zadzwoń na podany nr /zmiana bazy danych/
         obsługa budzika
         emergency sms /zmiana bazy danych/
         ##text to speech##
- * */
+*/
 
