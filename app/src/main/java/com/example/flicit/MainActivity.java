@@ -1,24 +1,34 @@
 package com.example.flicit;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import io.flic.lib.FlicAppNotInstalledException;
-import io.flic.lib.FlicBroadcastReceiverFlags;
-import io.flic.lib.FlicButton;
-import io.flic.lib.FlicManager;
-import io.flic.lib.FlicManagerInitializedCallback;
-
 public class MainActivity extends AppCompatActivity {
-    private Button viewAllButton;
-    private Button flicButton;
+    private static final int REQUEST_CALL = 1;
+    private static final int PICK_CONTACT = 2;
+    private static final int CAMERA_REQUEST = 3;
+    private boolean flashlightOn = false;
+    private ImageView phoneButton;
+    private ImageView lockButton;
+    private ImageView flicButton;
+    private ImageView flashlightButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,20 +37,69 @@ public class MainActivity extends AppCompatActivity {
 
         FlicConfig.setFlicCredentials();
 
-        flicButton = (Button) findViewById(R.id.flicButton);
+        flicButton = (ImageView) findViewById(R.id.flicButton);
+        phoneButton = (ImageView) findViewById(R.id.phoneButton);
+        flashlightButton = (ImageView) findViewById(R.id.flashlightButton);
 
-        flicManage();
 
-        viewAllButton = (Button) findViewById(R.id.viewAllButton); //db test
+        flicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FlicManageActivity.class);
+                startActivity(intent);
+            }
+        });
+        phoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getNumberFromContacts();
+            }
+        });
+        flashlightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST);
+                } else {
+                    flashlightService();
+                }
+            }
+        });
+
+        lockButton = (ImageView) findViewById(R.id.lockButton); //db test
         viewAll(); //db test
     }
 
+    public void flashlightService() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+            try {
+                String cameraId = cameraManager.getCameraIdList()[0];
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (flashlightOn) {
+                        cameraManager.setTorchMode(cameraId, false);
+                        flashlightOn = false;
+                    } else {
+                        cameraManager.setTorchMode(cameraId, true);
+                        flashlightOn = true;
+                    }
+                }
+
+            } catch (CameraAccessException e) {
+
+            }
+
+        }
+
+
+    }
+
     public void viewAll() { //db test
-        viewAllButton.setOnClickListener(new View.OnClickListener() {
+        lockButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Cursor res = DatabaseHelper.getInstance(MainActivity.this).getAllData();
-                if(res.getCount() == 0) {
+                if (res.getCount() == 0) {
                     //show massage
                     showMassage("Error", "No data");
                     return;
@@ -57,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     public void showMassage(String title, String message) { //db test
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
@@ -65,13 +125,124 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void flicManage() {
-        flicButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, FlicManageActivity.class);
-                startActivity(intent);
-            }
-        });
+    public void getNumberFromContacts() {
+//        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_CONTACTS}, PICK_CONTACT);
+//        } else {
+//            Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+//            startActivityForResult(intent, PICK_CONTACT);
+//        }
+        Intent intent = new Intent(MainActivity.this, ContactListActivity.class);
+        startActivity(intent);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case CAMERA_REQUEST:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    flashlightService();
+                } else {
+                    Toast.makeText(this, "Flashlight Permission DENIED", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+
+//    public void makePhoneCall() {
+//        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+//        } else {
+//            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+//        }
+//    }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        switch (requestCode) {
+//            case REQUEST_CALL:
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    makePhoneCall();
+//                } else {
+//                    Toast.makeText(this, "Call Phone Permission DENIED", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//            case PICK_CONTACT:
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    getNumberFromContacts();
+//                } else {
+//                    Toast.makeText(this, "Pick Contact Permission DENIED", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//        }
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        switch (requestCode) {
+//            case PICK_CONTACT:
+//                if (resultCode == Activity.RESULT_OK) {
+//                    Uri contactData = data.getData();
+//                    Cursor cursor = getContentResolver().query(contactData, null, null, null, null);
+//                    if (cursor.moveToFirst()) {
+//                        String id = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+//                        Cursor phoneCursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+//                                null,
+//                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+//                                new String[]{id},
+//                                null);
+//                        if (phoneCursor.moveToFirst()) {
+//                            String number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+//                            dial = "tel:" + number;
+//                            makePhoneCall();
+//                        }
+//                    }
+//                }
+//                break;
+//        }
+//    }
 }
+/* TODO
+    Dzwonienie:
+        rejest połączeń
+        ramka przy słuchawce po nieodebranym połączeniu
+        dodawanie/edycja kontaktów
+        duża klawiatura numeryczna i dzwonienie z niej
+        poprawienie listy kontatków na listę a nie przyciski
+            ##ekran podczas dzwonienia##
+    Wiadomości:
+        lista wiadomości
+        pisanie i wysyłka wiadomości
+        ramka po nieodczytanej wiadomości
+    Manage Flic:
+        dodawanie nazwy Flica
+        usuwanie Flica
+        poprawa bazy danych na 2 tabele
+        lista fliców a nie przyciski
+        jakieś ładniejsze menu z ikonami i może nadawaniem kolorów przyciskom
+        edycja funkcji Flica - przerobienie na listę pod rodzaje kliknięcia nazawa wybranej funkcji /prawdopodobnie potrzebny enum/
+    Latarka:
+        ##zmiana ikony na świecącą gdy latarka jest włączona i na zgaszoną wpp##
+    Głośność:
+        dodanie activity głośości, 2 paski systemowa i aplikacji
+        przyciski z plusem i minusem i wycisz
+    Blokada:
+        blokowanie komórki z ekranem z przyciskiem odblokowania, dużym zegarem i ewentualnie że ktoś dzwonił, wysłał wiadomość
+    Aplikacja:
+        przerobienie aplikacji na ekran głowny
+        usunięcie górnego paska
+        zrobienie na górze zegarka i siły sygnału telefnicznego
+    Funkcjonalności:
+        znajdz telefon
+        poprawna latarka
+        asysten google
+        odbierz telefon i włącz głośnomówiący
+        zadzwoń na podany nr /zmiana bazy danych/
+        obsługa budzika
+        emergency sms /zmiana bazy danych/
+        ##text to speech##
+ * */
+
