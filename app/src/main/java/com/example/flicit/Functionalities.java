@@ -3,6 +3,7 @@ package com.example.flicit;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
@@ -98,9 +99,15 @@ public class Functionalities {
     protected void soundAlarm() {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, AudioManager.FLAG_SHOW_UI);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume/4, AudioManager.FLAG_SHOW_UI);
         MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.car_alarm);
         mediaPlayer.start();
+    }
+
+    protected void setMaxVolume() {
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume/4, AudioManager.FLAG_SHOW_UI);
     }
 
 
@@ -128,6 +135,32 @@ public class Functionalities {
 
             } catch (CameraAccessException e) {
 
+            }
+        }
+    }
+
+    protected void findPhone() {
+        Intent intent = new Intent(context, AlarmActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    protected void panic() {
+        MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.car_alarm);
+        int delay = 500;
+        int alarmDuration = mediaPlayer.getDuration();
+        mediaPlayer.start();
+        for(int i = 0; i < alarmDuration/delay; i++) {
+            flashlightService();
+            if(i%2 == 0)
+                vibrate();
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                mediaPlayer.stop();
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         }
     }

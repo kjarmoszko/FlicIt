@@ -76,6 +76,12 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
         finish();
     }
 
+    public void findPhoneClicked(View v) {
+        functionality.putExtra("functionality", "2");
+        setResult(RESULT_OK, functionality);
+        finish();
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {

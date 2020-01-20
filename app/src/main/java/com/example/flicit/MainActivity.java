@@ -205,11 +205,11 @@ public class MainActivity extends AppCompatActivity {
         zrobienie na górze zegarka i siły sygnału telefnicznego
         ##checkfunctionalities wywalić do oddzielnej klasy?##
     Funkcjonalności:
-        znajdz telefon
+        znajdowanie telefonu - wyłączenie po kliknięciu przycisku na ekranie
         asystent google
         odbierz telefon i włącz głośnomówiący
         zadzwoń na podany nr /zmiana bazy danych/
-        obsługa budzika
+        ##obsługa budzika##
         emergency sms /zmiana bazy danych/
         ##text to speech##
 */
