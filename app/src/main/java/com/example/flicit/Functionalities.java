@@ -1,10 +1,8 @@
 package com.example.flicit;
 
-import android.Manifest;
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.media.AudioManager;
@@ -12,12 +10,10 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.telecom.TelecomManager;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 public class Functionalities {
     private Context context;
@@ -99,15 +95,18 @@ public class Functionalities {
     protected void soundAlarm() {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume/4, AudioManager.FLAG_SHOW_UI);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume / 4, AudioManager.FLAG_SHOW_UI);
         MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.car_alarm);
         mediaPlayer.start();
+        audioManager.setSpeakerphoneOn(true);
+        if (audioManager.isSpeakerphoneOn())
+        Toast.makeText(context, "alamakotawdupie",Toast.LENGTH_SHORT).show();
     }
 
     protected void setMaxVolume() {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume/4, AudioManager.FLAG_SHOW_UI);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, AudioManager.FLAG_SHOW_UI);
     }
 
 
@@ -150,18 +149,55 @@ public class Functionalities {
         int delay = 500;
         int alarmDuration = mediaPlayer.getDuration();
         mediaPlayer.start();
-        for(int i = 0; i < alarmDuration/delay; i++) {
+        for (int i = 0; i < alarmDuration / delay; i++) {
             flashlightService();
-            if(i%2 == 0)
+            if (i % 2 == 0)
                 vibrate();
             try {
                 Thread.sleep(delay);
             } catch (InterruptedException e) {
                 mediaPlayer.stop();
-                Intent intent = new Intent(context, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                context.startActivity(new Intent(context, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         }
     }
+
+    protected void runGoogleAssistant() {
+        setMaxVolume();
+        context.startActivity(new Intent(Intent.ACTION_VOICE_COMMAND).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+//        Intent intent = new Intent();
+//        intent.setClassName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.staticplugins.opa.hq.OpaHqActivity");
+//        if(intent == null) {
+//            intent = new Intent(Intent.ACTION_VIEW);
+//            intent.setData(Uri.parse("market://details?id=com.google.android.googlequicksearchbox"));
+//        }
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        context.startActivity(intent);
+    }
+
+    @SuppressLint("MissingPermission")
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    protected void pickUpCall() {
+        TelecomManager telecomManager = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            telecomManager.acceptRingingCall();
+            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            audioManager.setMode(AudioManager.MODE_IN_CALL);
+            audioManager.setSpeakerphoneOn(true);
+
+//            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+//            if (!audioManager.isSpeakerphoneOn()) {
+//                audioManager.setMode(AudioManager.MODE_IN_CALL);
+//                audioManager.setSpeakerphoneOn(true);
+//            }
+        }
+    }
+
+
+
 }

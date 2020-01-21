@@ -4,9 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -15,10 +13,13 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class ChooseFunctionalityActivity extends AppCompatActivity {
-    Button flashlightButton;
-//    Button noneButton, flashButton, cancelButton;
+    Button flashlightButton, pickUpPhoneButton;
+    //    Button noneButton, flashButton, cancelButton;
     Intent functionality;
     private static final int CAMERA_REQUEST = 3;
+    private static final int PICK_UP_PHONE = 4;
+    private static final int MODIFY_AUDIO = 5;
+    private static final int PHONE_STATE = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +38,26 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
                 flashlightButtonClicked();
             }
         });
+        pickUpPhoneButton = (Button) findViewById(R.id.pickUpPhoneButton);
+        pickUpPhoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickUpPhoneClicked();
+            }
+        });
     }
 
     public void cancelButtonClicked(View v) {
         setResult(RESULT_CANCELED);
         finish();
     }
+
     public void noneButtonClicked(View v) {
         functionality.putExtra("functionality", "0");
         setResult(RESULT_OK, functionality);
         finish();
     }
+
     public void flashlightButtonClicked() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST);
@@ -82,6 +92,28 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
         finish();
     }
 
+    public void googleAssistantClicked(View v) {
+        functionality.putExtra("functionality", "6");
+        setResult(RESULT_OK, functionality);
+        finish();
+    }
+
+    public void pickUpPhoneClicked() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ANSWER_PHONE_CALLS}, PICK_UP_PHONE);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.MODIFY_AUDIO_SETTINGS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MODIFY_AUDIO_SETTINGS}, MODIFY_AUDIO);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, PHONE_STATE);
+        }
+        functionality.putExtra("functionality", "7");
+        setResult(RESULT_OK, functionality);
+        finish();
+    }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -90,6 +122,28 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
                     flashlightButtonClicked();
                 } else {
                     Toast.makeText(ChooseFunctionalityActivity.this, "Flashlight Permission DENIED", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case PICK_UP_PHONE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    pickUpPhoneClicked();
+                } else {
+                    Toast.makeText(ChooseFunctionalityActivity.this, "PickUpPhone Permission DENIED", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case MODIFY_AUDIO:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    pickUpPhoneClicked();
+                } else {
+                    Toast.makeText(ChooseFunctionalityActivity.this, "ModifyAudio Permission DENIED", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case PHONE_STATE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    pickUpPhoneClicked();
+                    Toast.makeText(ChooseFunctionalityActivity.this, "PhoneState Permission GRAND", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ChooseFunctionalityActivity.this, "PhoneState Permission DENIED", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

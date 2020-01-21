@@ -7,13 +7,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.Context;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -186,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         pisanie i wysyłka wiadomości
         ramka po nieodczytanej wiadomości
     Manage Flic:
-        dodawanie nazwy Flica
+        dodawanie nazwy Flica /zmiana bazy danych/
         usuwanie Flica
         poprawa bazy danych na 2 tabele
         lista fliców a nie przyciski
@@ -205,9 +202,8 @@ public class MainActivity extends AppCompatActivity {
         zrobienie na górze zegarka i siły sygnału telefnicznego
         ##checkfunctionalities wywalić do oddzielnej klasy?##
     Funkcjonalności:
-        znajdowanie telefonu - wyłączenie po kliknięciu przycisku na ekranie
-        asystent google
-        odbierz telefon i włącz głośnomówiący
+        znajdowanie telefonu - wyłączenie nastychmiast po kliknięciu przycisku na ekranie
+        włącz głośnomówiący po odebraniu telefonu - wymaga napisania swojej aplikacji dzwoniącej https://developer.android.com/guide/topics/connectivity/telecom/selfManaged
         zadzwoń na podany nr /zmiana bazy danych/
         ##obsługa budzika##
         emergency sms /zmiana bazy danych/

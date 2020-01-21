@@ -38,6 +38,12 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                 case 5:
                     Functionalities.getInstance(context).vibrate();
                     break;
+                case 6:
+                    Functionalities.getInstance(context).runGoogleAssistant();
+                    break;
+                case 7:
+                    Functionalities.getInstance(context).pickUpCall();
+                    break;
                 default:
                     break;
             }
@@ -61,6 +67,12 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                 case 5:
                     Functionalities.getInstance(context).vibrate();
                     break;
+                case 6:
+                    Functionalities.getInstance(context).runGoogleAssistant();
+                    break;
+                case 7:
+                    Functionalities.getInstance(context).pickUpCall();
+                    break;
                 default:
                     break;
             }
@@ -83,6 +95,12 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                     break;
                 case 5:
                     Functionalities.getInstance(context).vibrate();
+                    break;
+                case 6:
+                    Functionalities.getInstance(context).runGoogleAssistant();
+                    break;
+                case 7:
+                    Functionalities.getInstance(context).pickUpCall();
                     break;
                 default:
                     break;
