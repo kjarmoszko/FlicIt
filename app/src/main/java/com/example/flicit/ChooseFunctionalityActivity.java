@@ -10,16 +10,18 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class ChooseFunctionalityActivity extends AppCompatActivity {
-    Button flashlightButton, pickUpPhoneButton;
+    Button flashlightButton, pickUpPhoneButton, changeVolumeButton;
     //    Button noneButton, flashButton, cancelButton;
     Intent functionality;
     private static final int CAMERA_REQUEST = 3;
     private static final int PICK_UP_PHONE = 4;
     private static final int MODIFY_AUDIO = 5;
     private static final int PHONE_STATE = 6;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,13 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pickUpPhoneClicked();
+            }
+        });
+        changeVolumeButton = (Button) findViewById(R.id.changeVolumeButton);
+        changeVolumeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeVolumeButtonClicked();
             }
         });
     }
@@ -113,6 +122,16 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
         finish();
     }
 
+    public void changeVolumeButtonClicked() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.MODIFY_AUDIO_SETTINGS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MODIFY_AUDIO_SETTINGS}, MODIFY_AUDIO);
+        } else {
+            functionality.putExtra("functionality", "8");
+            setResult(RESULT_OK, functionality);
+            finish();
+        }
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -141,7 +160,6 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
             case PHONE_STATE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 //                    pickUpPhoneClicked();
-                    Toast.makeText(ChooseFunctionalityActivity.this, "PhoneState Permission GRAND", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(ChooseFunctionalityActivity.this, "PhoneState Permission DENIED", Toast.LENGTH_SHORT).show();
                 }

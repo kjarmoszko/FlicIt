@@ -44,6 +44,9 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                 case 7:
                     Functionalities.getInstance(context).pickUpCall();
                     break;
+                case 8:
+                    Functionalities.getInstance(context).speakerService();
+                    break;
                 default:
                     break;
             }
@@ -73,6 +76,9 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                 case 7:
                     Functionalities.getInstance(context).pickUpCall();
                     break;
+                case 8:
+                    Functionalities.getInstance(context).speakerService();
+                    break;
                 default:
                     break;
             }
@@ -101,6 +107,9 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                     break;
                 case 7:
                     Functionalities.getInstance(context).pickUpCall();
+                    break;
+                case 8:
+                    Functionalities.getInstance(context).speakerService();
                     break;
                 default:
                     break;

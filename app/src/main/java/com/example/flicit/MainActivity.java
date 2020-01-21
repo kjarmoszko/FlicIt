@@ -1,6 +1,7 @@
 package com.example.flicit;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -8,9 +9,12 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,12 +22,12 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 3;
-    private boolean flashlightOn = false;
+    private static final int MODIFY_AUDIO = 5;
     private ImageView phoneButton;
     private ImageView lockButton;
     private ImageView flicButton;
-    private ImageView flashlightButton;
-
+    public static ImageView flashlightButton;
+    public static ImageView muteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         flicButton = (ImageView) findViewById(R.id.flicButton);
         phoneButton = (ImageView) findViewById(R.id.phoneButton);
         flashlightButton = (ImageView) findViewById(R.id.flashlightButton);
-
+        muteButton = (ImageView) findViewById(R.id.muteButton);
 
         flicButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,8 +64,26 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        muteButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.P)
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.MODIFY_AUDIO_SETTINGS) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.MODIFY_AUDIO_SETTINGS}, MODIFY_AUDIO);
+                } else {
+                    Functionalities.getInstance(MainActivity.this).speakerService();
+                }
+            }
+        });
+
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (audioManager.getStreamVolume(AudioManager.STREAM_RING) == audioManager.getStreamMinVolume(AudioManager.STREAM_RING))
+                muteButton.setImageResource(R.drawable.volume_off_icon);
+        }
 
         lockButton = (ImageView) findViewById(R.id.lockButton); //db test
+
         viewAll(); //db test
     }
 
@@ -109,6 +131,13 @@ public class MainActivity extends AppCompatActivity {
                     Functionalities.getInstance(MainActivity.this).flashlightService();
                 } else {
                     Toast.makeText(this, "Flashlight Permission DENIED", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case MODIFY_AUDIO:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        Functionalities.getInstance(MainActivity.this).speakerService();
+                } else {
+                    Toast.makeText(this, "ModifyAudio Permission DENIED", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -189,11 +218,6 @@ public class MainActivity extends AppCompatActivity {
         lista fliców a nie przyciski
         jakieś ładniejsze menu z ikonami i może nadawaniem kolorów przyciskom
         edycja funkcji Flica - przerobienie na listę pod rodzaje kliknięcia nazawa wybranej funkcji /prawdopodobnie potrzebny enum/
-    Latarka:
-        ##zmiana ikony na świecącą gdy latarka jest włączona i na zgaszoną wpp##
-    Głośność:
-        dodanie activity głośości, 2 paski systemowa i aplikacji
-        przyciski z plusem i minusem i wycisz
     Blokada:
         blokowanie komórki z ekranem z przyciskiem odblokowania, dużym zegarem i ewentualnie że ktoś dzwonił, wysłał wiadomość
     Aplikacja:

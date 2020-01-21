@@ -126,9 +126,11 @@ public class Functionalities {
                     if (flashlightOn) {
                         cameraManager.setTorchMode(cameraId, false);
                         flashlightOn = false;
+                        MainActivity.flashlightButton.setImageResource(R.drawable.flashlight_off_icon);
                     } else {
                         cameraManager.setTorchMode(cameraId, true);
                         flashlightOn = true;
+                        MainActivity.flashlightButton.setImageResource(R.drawable.flashlight_on_icon);
                     }
                 }
 
@@ -195,6 +197,23 @@ public class Functionalities {
 //                audioManager.setMode(AudioManager.MODE_IN_CALL);
 //                audioManager.setSpeakerphoneOn(true);
 //            }
+        }
+    }
+
+
+    protected void speakerService() {
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+        if(audioManager.getStreamVolume(AudioManager.STREAM_RING) < audioManager.getStreamMaxVolume(AudioManager.STREAM_RING)) {
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),AudioManager.FLAG_SHOW_UI);
+                audioManager.setStreamVolume(AudioManager.STREAM_RING,audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),AudioManager.FLAG_SHOW_UI);
+                MainActivity.muteButton.setImageResource(R.drawable.volume_on_icon);
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMinVolume(AudioManager.STREAM_MUSIC), AudioManager.FLAG_SHOW_UI);
+                audioManager.setStreamVolume(AudioManager.STREAM_RING, audioManager.getStreamMinVolume(AudioManager.STREAM_RING), AudioManager.FLAG_SHOW_UI);
+                MainActivity.muteButton.setImageResource(R.drawable.volume_off_icon);
+            }
         }
     }
 
