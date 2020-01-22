@@ -83,6 +83,20 @@
         android:id="@+id/changeVolumeButton"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/pickUpPhoneButton"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Emergency Call"
+        android:id="@+id/emergencyCallButton"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/changeVolumeButton"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Emergency SMS"
+        android:id="@+id/emergencySmsButton"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/emergencyCallButton"/>
 
     <Button
         android:layout_width="wrap_content"

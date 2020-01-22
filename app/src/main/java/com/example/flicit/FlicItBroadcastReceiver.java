@@ -47,6 +47,13 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                 case 8:
                     Functionalities.getInstance(context).speakerService();
                     break;
+                case 9:
+                    Functionalities.getInstance(context).emergencyCall("797192008"); //after rebuild db read number from db
+                    break;
+                case 10:
+                    Functionalities.getInstance(context).emergencySms("604358879", "To jest SMS ratunkowy, jeżeli go otrzymałeś dostarcz w jak najszybszym czasie" +
+                            " alkohol do nadawcy tego smsa. To sprawa życia lub śmierci"); //after rebuild db read number and message from db
+                    break;
                 default:
                     break;
             }
@@ -79,6 +86,13 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                 case 8:
                     Functionalities.getInstance(context).speakerService();
                     break;
+                case 9:
+                    Functionalities.getInstance(context).emergencyCall("797192008"); //after rebuild db read number from db
+                    break;
+                case 10:
+                    Functionalities.getInstance(context).emergencySms("797192008", "To jest SMS ratunkowy, jeżeli go otrzymałeś dostarcz w jak najszybszym czasie" +
+                            "alkohol do nadawcy tego smsa. To sprawa życia lub śmierci"); //after rebuild db read number and message from db
+                    break;
                 default:
                     break;
             }
@@ -110,6 +124,13 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                     break;
                 case 8:
                     Functionalities.getInstance(context).speakerService();
+                    break;
+                case 9:
+                    Functionalities.getInstance(context).emergencyCall("797192008"); //after rebuild db read number from db
+                    break;
+                case 10:
+                    Functionalities.getInstance(context).emergencySms("797192008", "To jest SMS ratunkowy, jeżeli go otrzymałeś dostarcz w jak najszybszym czasie" +
+                            "alkohol do nadawcy tego smsa. To sprawa życia lub śmierci"); //after rebuild db read number and message from db
                     break;
                 default:
                     break;

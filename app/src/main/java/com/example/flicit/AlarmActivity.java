@@ -32,7 +32,6 @@ public class AlarmActivity extends AppCompatActivity {
                 finish();
             }
         });
-        Functionalities.getInstance(this).setMaxVolume();
         handler.post(panic);
     }
 

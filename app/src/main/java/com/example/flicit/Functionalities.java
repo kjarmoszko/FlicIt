@@ -7,13 +7,17 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.telecom.TelecomManager;
+import android.telephony.SmsManager;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+
+import java.util.ArrayList;
 
 public class Functionalities {
     private Context context;
@@ -93,20 +97,15 @@ public class Functionalities {
     }
 
     protected void soundAlarm() {
-        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume / 4, AudioManager.FLAG_SHOW_UI);
         MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.car_alarm);
         mediaPlayer.start();
-        audioManager.setSpeakerphoneOn(true);
-        if (audioManager.isSpeakerphoneOn())
-        Toast.makeText(context, "alamakotawdupie",Toast.LENGTH_SHORT).show();
     }
 
     protected void setMaxVolume() {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, AudioManager.FLAG_SHOW_UI);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume/10, AudioManager.FLAG_SHOW_UI); //10% for test only
+        MainActivity.muteButton.setImageResource(R.drawable.volume_on_icon);
     }
 
 
@@ -150,6 +149,7 @@ public class Functionalities {
         MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.car_alarm);
         int delay = 500;
         int alarmDuration = mediaPlayer.getDuration();
+        setMaxVolume();
         mediaPlayer.start();
         for (int i = 0; i < alarmDuration / delay; i++) {
             flashlightService();
@@ -215,6 +215,17 @@ public class Functionalities {
                 MainActivity.muteButton.setImageResource(R.drawable.volume_off_icon);
             }
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    protected void emergencyCall(String number) {
+        context.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+number)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    protected void emergencySms(String number, String message) {
+        SmsManager smsManager = SmsManager.getDefault();
+        ArrayList<String> parts = smsManager.divideMessage(message);
+        smsManager.sendMultipartTextMessage(number,null, parts, null, null);
     }
 
 

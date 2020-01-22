@@ -14,13 +14,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class ChooseFunctionalityActivity extends AppCompatActivity {
-    Button flashlightButton, pickUpPhoneButton, changeVolumeButton;
+    Button flashlightButton, pickUpPhoneButton, changeVolumeButton, emergencyCallButton, emergencySmsButton;
     //    Button noneButton, flashButton, cancelButton;
     Intent functionality;
+    private static final int REQUEST_CALL = 1;
     private static final int CAMERA_REQUEST = 3;
     private static final int PICK_UP_PHONE = 4;
     private static final int MODIFY_AUDIO = 5;
     private static final int PHONE_STATE = 6;
+    private static final int REQUEST_SMS = 7;
 
 
     @Override
@@ -52,6 +54,20 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeVolumeButtonClicked();
+            }
+        });
+        emergencyCallButton = (Button) findViewById(R.id.emergencyCallButton);
+        emergencyCallButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emergencyCallButtonClicked();
+            }
+        });
+        emergencySmsButton = (Button) findViewById(R.id.emergencySmsButton);
+        emergencySmsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emergencySmsButtonClicked();
             }
         });
     }
@@ -132,6 +148,26 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
         }
     }
 
+    public void emergencyCallButtonClicked() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+        } else {
+            functionality.putExtra("functionality", "9");
+            setResult(RESULT_OK, functionality);
+            finish();
+        }
+    }
+
+    public void emergencySmsButtonClicked() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, REQUEST_SMS);
+        } else {
+            functionality.putExtra("functionality", "10");
+            setResult(RESULT_OK, functionality);
+            finish();
+        }
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -162,6 +198,20 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
 //                    pickUpPhoneClicked();
                 } else {
                     Toast.makeText(ChooseFunctionalityActivity.this, "PhoneState Permission DENIED", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case REQUEST_CALL:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    emergencyCallButtonClicked();
+                } else {
+                    Toast.makeText(ChooseFunctionalityActivity.this, "CallPhone Permission DENIED", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case REQUEST_SMS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    emergencySmsButtonClicked();
+                } else {
+                    Toast.makeText(ChooseFunctionalityActivity.this, "SendSms Permission DENIED", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

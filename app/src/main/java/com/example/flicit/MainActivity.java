@@ -226,11 +226,12 @@ public class MainActivity extends AppCompatActivity {
         zrobienie na górze zegarka i siły sygnału telefnicznego
         ##checkfunctionalities wywalić do oddzielnej klasy?##
     Funkcjonalności:
-        znajdowanie telefonu - wyłączenie nastychmiast po kliknięciu przycisku na ekranie
-        włącz głośnomówiący po odebraniu telefonu - wymaga napisania swojej aplikacji dzwoniącej https://developer.android.com/guide/topics/connectivity/telecom/selfManaged
-        zadzwoń na podany nr /zmiana bazy danych/
+        -usprawnić:znajdowanie telefonu - wyłączenie nastychmiast po kliknięciu przycisku na ekranie
+        -usprawnić:włącz głośnomówiący po odebraniu telefonu - wymaga napisania swojej aplikacji dzwoniącej https://developer.android.com/guide/topics/connectivity/telecom/selfManaged
+        -usprawnić:emergency call - zmenić bazę danych żeby można było dodawać nr po wybraniu opcji + nowe activity do wpisywania tego numeru
+            ##jak się uda zrobic własną aplikację dzwoniącą wybrać czy dzwonić z głośnomówiącym czy nie, co prawdopodobnie zmieni bazę danych##
+        -usprawnić:emergency sms - zmienić bazę danych żeby można było dodawać nr i wiadomość po wybraniu opcji + nowe activity do wpisywania tego
         ##obsługa budzika##
-        emergency sms /zmiana bazy danych/
         ##text to speech##
 */
 
