@@ -226,6 +226,7 @@ public class Functionalities {
         SmsManager smsManager = SmsManager.getDefault();
         ArrayList<String> parts = smsManager.divideMessage(message);
         smsManager.sendMultipartTextMessage(number,null, parts, null, null);
+        Toast.makeText(context, "SMS send!",Toast.LENGTH_SHORT).show();
     }
 
 

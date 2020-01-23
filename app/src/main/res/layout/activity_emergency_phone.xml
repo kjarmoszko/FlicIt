@@ -24,14 +24,26 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/emergencyTextView"
         android:id="@+id/emergencyNumber"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter emergency message:"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/emergencyNumber"
+        android:textSize="32dp"
+        android:id="@+id/emergencySmsTextView"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/emergencySmsTextView"
+        android:id="@+id/emergencyMessage"/>
     <ImageView
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/emergencyNumber"
+        android:layout_below="@id/emergencyMessage"
         android:id="@+id/acceptButton"
         android:src="@drawable/done_icon" />
-
-
 
 </RelativeLayout>

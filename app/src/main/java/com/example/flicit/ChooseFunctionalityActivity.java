@@ -161,7 +161,7 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
         } else {
             Intent intent = new Intent(ChooseFunctionalityActivity.this, EmergencyPhoneActivity.class);
-            intent.putExtra("functionId", functionId);
+            intent.putExtra("functionId", functionId+",call");
             startActivityForResult(intent, 1);
         }
     }
@@ -170,9 +170,9 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, REQUEST_SMS);
         } else {
-            functionality.putExtra("functionality", "10");
-            setResult(RESULT_OK, functionality);
-            finish();
+            Intent intent = new Intent(ChooseFunctionalityActivity.this, EmergencyPhoneActivity.class);
+            intent.putExtra("functionId", functionId+",sms");
+            startActivityForResult(intent, 2);
         }
     }
 
@@ -231,6 +231,11 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
         switch (requestCode) {
             case 1:
                 functionality.putExtra("functionality", "9");
+                setResult(RESULT_OK, functionality);
+                finish();
+                break;
+            case 2:
+                functionality.putExtra("functionality", "10");
                 setResult(RESULT_OK, functionality);
                 finish();
                 break;

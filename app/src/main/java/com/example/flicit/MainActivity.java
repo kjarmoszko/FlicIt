@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
         -usprawnić:znajdowanie telefonu - wyłączenie nastychmiast po kliknięciu przycisku na ekranie
         -usprawnić:włącz głośnomówiący po odebraniu telefonu - wymaga napisania swojej aplikacji dzwoniącej https://developer.android.com/guide/topics/connectivity/telecom/selfManaged
         -usprawnić:emergency call - ##jak się uda zrobic własną aplikację dzwoniącą wybrać czy dzwonić z głośnomówiącym czy nie, co prawdopodobnie zmieni bazę danych##
-        -usprawnić:emergency sms - zmienić bazę danych żeby można było dodawać nr i wiadomość po wybraniu opcji + nowe activity do wpisywania tego
+        -emergency sms - jakies powiadomienie że został wysłany sms ratunkowy, po obeznaniu się z smsami
         ##obsługa budzika##
         ##text to speech##
 */

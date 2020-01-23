@@ -53,8 +53,9 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                     Functionalities.getInstance(context).emergencyCall(DatabaseHelper.getInstance(context).getFunction(button.getButtonId(),1).getNumber());
                     break;
                 case "10":
-                    Functionalities.getInstance(context).emergencySms("604358879", "To jest SMS ratunkowy, jeżeli go otrzymałeś dostarcz w jak najszybszym czasie" +
-                            " alkohol do nadawcy tego smsa. To sprawa życia lub śmierci"); //after rebuild db read number and message from db
+                    String number = DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 1).getNumber();
+                    String message = DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 1).getMessage();
+                    Functionalities.getInstance(context).emergencySms(number, message);
                     break;
                 default:
                     break;
@@ -92,8 +93,9 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                     Functionalities.getInstance(context).emergencyCall(DatabaseHelper.getInstance(context).getFunction(button.getButtonId(),0).getNumber());
                     break;
                 case "10":
-                    Functionalities.getInstance(context).emergencySms("797192008", "To jest SMS ratunkowy, jeżeli go otrzymałeś dostarcz w jak najszybszym czasie " +
-                            "alkohol do nadawcy tego smsa. To sprawa życia lub śmierci"); //after rebuild db read number and message from db
+                    String number = DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 2).getNumber();
+                    String message = DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 2).getMessage();
+                    Functionalities.getInstance(context).emergencySms(number, message);
                     break;
                 default:
                     break;
@@ -131,8 +133,9 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                     Functionalities.getInstance(context).emergencyCall(DatabaseHelper.getInstance(context).getFunction(button.getButtonId(),2).getNumber());
                     break;
                 case "10":
-                    Functionalities.getInstance(context).emergencySms("797192008", "To jest SMS ratunkowy, jeżeli go otrzymałeś dostarcz w jak najszybszym czasie " +
-                            "alkohol do nadawcy tego smsa. To sprawa życia lub śmierci"); //after rebuild db read number and message from db
+                    String number = DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 0).getNumber();
+                    String message = DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 0).getMessage();
+                    Functionalities.getInstance(context).emergencySms(number, message);
                     break;
                 default:
                     break;
