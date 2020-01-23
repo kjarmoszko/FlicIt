@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.flicit.database.DatabaseHelper;
+
 import io.flic.lib.FlicBroadcastReceiver;
 import io.flic.lib.FlicButton;
 
@@ -20,37 +22,37 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
     public void onButtonSingleOrDoubleClickOrHold(Context context, FlicButton button, boolean wasQueued, int timeDiff, boolean isSingleClick, boolean isDoubleClick, boolean isHold) {
         if (isSingleClick) {
             Toast.makeText(context, "Single Click", Toast.LENGTH_SHORT).show();
-            switch (DatabaseHelper.getInstance(context).getFunctionality(button.getButtonId(), 1)) {
-                case 0:
+            switch (DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 1).getType()) {
+                case "0":
                     break;
-                case 1:
+                case "1":
                     Functionalities.getInstance(context).flashlightService();
                     break;
-                case 2:
+                case "2":
                     Functionalities.getInstance(context).findPhone();
                     break;
-                case 3:
+                case "3":
                     Functionalities.getInstance(context).blinkFlash();
                     break;
-                case 4:
+                case "4":
                     Functionalities.getInstance(context).soundAlarm();
                     break;
-                case 5:
+                case "5":
                     Functionalities.getInstance(context).vibrate();
                     break;
-                case 6:
+                case "6":
                     Functionalities.getInstance(context).runGoogleAssistant();
                     break;
-                case 7:
+                case "7":
                     Functionalities.getInstance(context).pickUpCall();
                     break;
-                case 8:
+                case "8":
                     Functionalities.getInstance(context).speakerService();
                     break;
-                case 9:
-                    Functionalities.getInstance(context).emergencyCall("797192008"); //after rebuild db read number from db
+                case "9":
+                    Functionalities.getInstance(context).emergencyCall(DatabaseHelper.getInstance(context).getFunction(button.getButtonId(),1).getNumber());
                     break;
-                case 10:
+                case "10":
                     Functionalities.getInstance(context).emergencySms("604358879", "To jest SMS ratunkowy, jeżeli go otrzymałeś dostarcz w jak najszybszym czasie" +
                             " alkohol do nadawcy tego smsa. To sprawa życia lub śmierci"); //after rebuild db read number and message from db
                     break;
@@ -59,38 +61,38 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
             }
         } else if (isDoubleClick) {
             Toast.makeText(context, "Double Click", Toast.LENGTH_SHORT).show();
-            switch (DatabaseHelper.getInstance(context).getFunctionality(button.getButtonId(), 2)) {
-                case 0:
+            switch (DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 2).getType()) {
+                case "0":
                     break;
-                case 1:
+                case "1":
                     Functionalities.getInstance(context).flashlightService();
                     break;
-                case 2:
+                case "2":
                     Functionalities.getInstance(context).findPhone();
                     break;
-                case 3:
+                case "3":
                     Functionalities.getInstance(context).blinkFlash();
                     break;
-                case 4:
+                case "4":
                     Functionalities.getInstance(context).soundAlarm();
                     break;
-                case 5:
+                case "5":
                     Functionalities.getInstance(context).vibrate();
                     break;
-                case 6:
+                case "6":
                     Functionalities.getInstance(context).runGoogleAssistant();
                     break;
-                case 7:
+                case "7":
                     Functionalities.getInstance(context).pickUpCall();
                     break;
-                case 8:
+                case "8":
                     Functionalities.getInstance(context).speakerService();
                     break;
-                case 9:
-                    Functionalities.getInstance(context).emergencyCall("797192008"); //after rebuild db read number from db
+                case "9":
+                    Functionalities.getInstance(context).emergencyCall(DatabaseHelper.getInstance(context).getFunction(button.getButtonId(),0).getNumber());
                     break;
-                case 10:
-                    Functionalities.getInstance(context).emergencySms("797192008", "To jest SMS ratunkowy, jeżeli go otrzymałeś dostarcz w jak najszybszym czasie" +
+                case "10":
+                    Functionalities.getInstance(context).emergencySms("797192008", "To jest SMS ratunkowy, jeżeli go otrzymałeś dostarcz w jak najszybszym czasie " +
                             "alkohol do nadawcy tego smsa. To sprawa życia lub śmierci"); //after rebuild db read number and message from db
                     break;
                 default:
@@ -98,38 +100,38 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
             }
         } else if (isHold) {
             Toast.makeText(context, "Hold", Toast.LENGTH_SHORT).show();
-            switch (DatabaseHelper.getInstance(context).getFunctionality(button.getButtonId(), 0)) {
-                case 0:
+            switch (DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 0).getType()) {
+                case "0":
                     break;
-                case 1:
+                case "1":
                     Functionalities.getInstance(context).flashlightService();
                     break;
-                case 2:
+                case "2":
                     Functionalities.getInstance(context).findPhone();
                     break;
-                case 3:
+                case "3":
                     Functionalities.getInstance(context).blinkFlash();
                     break;
-                case 4:
+                case "4":
                     Functionalities.getInstance(context).soundAlarm();
                     break;
-                case 5:
+                case "5":
                     Functionalities.getInstance(context).vibrate();
                     break;
-                case 6:
+                case "6":
                     Functionalities.getInstance(context).runGoogleAssistant();
                     break;
-                case 7:
+                case "7":
                     Functionalities.getInstance(context).pickUpCall();
                     break;
-                case 8:
+                case "8":
                     Functionalities.getInstance(context).speakerService();
                     break;
-                case 9:
-                    Functionalities.getInstance(context).emergencyCall("797192008"); //after rebuild db read number from db
+                case "9":
+                    Functionalities.getInstance(context).emergencyCall(DatabaseHelper.getInstance(context).getFunction(button.getButtonId(),2).getNumber());
                     break;
-                case 10:
-                    Functionalities.getInstance(context).emergencySms("797192008", "To jest SMS ratunkowy, jeżeli go otrzymałeś dostarcz w jak najszybszym czasie" +
+                case "10":
+                    Functionalities.getInstance(context).emergencySms("797192008", "To jest SMS ratunkowy, jeżeli go otrzymałeś dostarcz w jak najszybszym czasie " +
                             "alkohol do nadawcy tego smsa. To sprawa życia lub śmierci"); //after rebuild db read number and message from db
                     break;
                 default:

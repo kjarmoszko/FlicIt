@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.flicit.database.DatabaseHelper;
+
 import io.flic.lib.FlicAppNotInstalledException;
 import io.flic.lib.FlicBroadcastReceiverFlags;
 import io.flic.lib.FlicButton;
@@ -50,7 +52,7 @@ public class FlicManageActivity extends AppCompatActivity {
                 FlicButton button = manager.completeGrabButton(requestCode, resultCode, data);
                 if (button != null) {
                     button.registerListenForBroadcast(FlicBroadcastReceiverFlags.CLICK_OR_DOUBLE_CLICK_OR_HOLD);
-                    DatabaseHelper.getInstance(FlicManageActivity.this).addButton(button.getButtonId());
+                    DatabaseHelper.getInstance(FlicManageActivity.this).createFlicButton(button.getButtonId());
                     Toast.makeText(FlicManageActivity.this, "Grabbed a button", Toast.LENGTH_SHORT).show();
                     getConnectedFlics();
                 } else {

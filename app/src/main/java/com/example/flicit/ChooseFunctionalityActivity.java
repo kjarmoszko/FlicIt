@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.flicit.database.DatabaseHelper;
+import com.example.flicit.database.Function;
+
 public class ChooseFunctionalityActivity extends AppCompatActivity {
     Button flashlightButton, pickUpPhoneButton, changeVolumeButton, emergencyCallButton, emergencySmsButton;
     //    Button noneButton, flashButton, cancelButton;
@@ -23,6 +26,7 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
     private static final int MODIFY_AUDIO = 5;
     private static final int PHONE_STATE = 6;
     private static final int REQUEST_SMS = 7;
+    private String functionId;
 
 
     @Override
@@ -70,6 +74,10 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
                 emergencySmsButtonClicked();
             }
         });
+
+        Intent intent = getIntent();
+        functionId = intent.getExtras().getString("functionId");
+
     }
 
     public void cancelButtonClicked(View v) {
@@ -152,9 +160,9 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
         } else {
-            functionality.putExtra("functionality", "9");
-            setResult(RESULT_OK, functionality);
-            finish();
+            Intent intent = new Intent(ChooseFunctionalityActivity.this, EmergencyPhoneActivity.class);
+            intent.putExtra("functionId", functionId);
+            startActivityForResult(intent, 1);
         }
     }
 
@@ -213,6 +221,18 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(ChooseFunctionalityActivity.this, "SendSms Permission DENIED", Toast.LENGTH_SHORT).show();
                 }
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                functionality.putExtra("functionality", "9");
+                setResult(RESULT_OK, functionality);
+                finish();
                 break;
         }
     }

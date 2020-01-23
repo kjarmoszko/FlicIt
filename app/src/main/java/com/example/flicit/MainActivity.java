@@ -20,6 +20,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.flicit.database.DatabaseHelper;
+
 public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 3;
     private static final int MODIFY_AUDIO = 5;
@@ -91,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
         lockButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cursor res = DatabaseHelper.getInstance(MainActivity.this).getAllData();
+//                Cursor res = DatabaseHelper.getInstance(MainActivity.this).getAllData();
+                Cursor res = DatabaseHelper.getInstance(MainActivity.this).getAllFunction();
                 if (res.getCount() == 0) {
                     //show massage
                     showMassage("Error", "No data");
@@ -103,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     buffer.append(res.getString(1) + "\n");
                     buffer.append(res.getString(2) + "\n");
                     buffer.append(res.getString(3) + "\n\n");
+//                    buffer.append(res.getString(4) + "\n\n");
                 }
                 //show all
                 showMassage("Data", buffer.toString());
@@ -212,9 +216,8 @@ public class MainActivity extends AppCompatActivity {
         pisanie i wysyłka wiadomości
         ramka po nieodczytanej wiadomości
     Manage Flic:
-        dodawanie nazwy Flica /zmiana bazy danych/
+        dodawanie nazwy Flica
         usuwanie Flica
-        poprawa bazy danych na 2 tabele
         lista fliców a nie przyciski
         jakieś ładniejsze menu z ikonami i może nadawaniem kolorów przyciskom
         edycja funkcji Flica - przerobienie na listę pod rodzaje kliknięcia nazawa wybranej funkcji /prawdopodobnie potrzebny enum/
@@ -228,8 +231,7 @@ public class MainActivity extends AppCompatActivity {
     Funkcjonalności:
         -usprawnić:znajdowanie telefonu - wyłączenie nastychmiast po kliknięciu przycisku na ekranie
         -usprawnić:włącz głośnomówiący po odebraniu telefonu - wymaga napisania swojej aplikacji dzwoniącej https://developer.android.com/guide/topics/connectivity/telecom/selfManaged
-        -usprawnić:emergency call - zmenić bazę danych żeby można było dodawać nr po wybraniu opcji + nowe activity do wpisywania tego numeru
-            ##jak się uda zrobic własną aplikację dzwoniącą wybrać czy dzwonić z głośnomówiącym czy nie, co prawdopodobnie zmieni bazę danych##
+        -usprawnić:emergency call - ##jak się uda zrobic własną aplikację dzwoniącą wybrać czy dzwonić z głośnomówiącym czy nie, co prawdopodobnie zmieni bazę danych##
         -usprawnić:emergency sms - zmienić bazę danych żeby można było dodawać nr i wiadomość po wybraniu opcji + nowe activity do wpisywania tego
         ##obsługa budzika##
         ##text to speech##
