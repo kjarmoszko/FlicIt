@@ -209,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
         ramka przy słuchawce po nieodebranym połączeniu
         dodawanie/edycja kontaktów
         duża klawiatura numeryczna i dzwonienie z niej
-        poprawienie listy kontatków na listę a nie przyciski
             ##ekran podczas dzwonienia##
     Wiadomości:
         lista wiadomości

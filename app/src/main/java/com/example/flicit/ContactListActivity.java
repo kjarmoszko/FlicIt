@@ -13,20 +13,31 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class ContactListActivity extends AppCompatActivity {
     private LinearLayout linearLayout;
     private static final int REQUEST_CALL = 1;
     private static final int PICK_CONTACT = 2;
     private static String dial;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_list);
+        listView = (ListView) findViewById(R.id.contactList);
 
         if (ContextCompat.checkSelfPermission(ContactListActivity.this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(ContactListActivity.this, new String[]{Manifest.permission.READ_CONTACTS}, PICK_CONTACT);
@@ -36,8 +47,7 @@ public class ContactListActivity extends AppCompatActivity {
     }
 
     private void getAllContacts() {
-        linearLayout = findViewById(R.id.linearContacts);
-        linearLayout.removeAllViews();
+        ArrayList<String> contactList = new ArrayList<String>();
 
         ContentResolver contentResolver = getContentResolver();
         Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
@@ -52,19 +62,22 @@ public class ContactListActivity extends AppCompatActivity {
                     null);
             if (phoneCursor.moveToNext()) {
                 final String number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                final Button button = new Button(this);
-                button.setText(name + " " + number);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dial = "tel:" + number;
-                        makePhoneCall();
-                    }
-                });
-                linearLayout.addView(button);
+                String str  = name + "\n" + number;
+                contactList.add(str);
             }
 
         }
+        Collections.sort(contactList);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.contact_item, R.id.contactItem, contactList);
+        listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String str[] = parent.getItemAtPosition(position).toString().split("\n");
+                dial = "tel:" + str[1];
+                        makePhoneCall();
+            }
+        });
     }
 
     public void makePhoneCall() {
