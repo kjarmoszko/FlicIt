@@ -1,21 +1,27 @@
 package com.example.flicit;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 
 public class AlarmActivity extends AppCompatActivity {
     private ImageView doneButton;
-    Handler handler = new Handler();
+    private int MAX_RETRIES = 10;
 
-    private Runnable panic = new Runnable() {
+    AsyncTask asyncTask = new AsyncTask() {
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
-        public void run() {
-            Functionalities.getInstance(AlarmActivity.this).panic();
-            handler.postDelayed(this, 800);
+        protected Object doInBackground(Object[] objects) {
+            for (int i = 0; i < MAX_RETRIES; i++) {
+                if (!isCancelled())
+                    Functionalities.getInstance(AlarmActivity.this).panic();
+            }
+            return null;
         }
     };
 
@@ -28,11 +34,16 @@ public class AlarmActivity extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handler.removeCallbacks(panic);
+                asyncTask.cancel(true);
                 finish();
             }
         });
-        handler.post(panic);
+        asyncTask.execute();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        asyncTask.cancel(true);
+    }
 }

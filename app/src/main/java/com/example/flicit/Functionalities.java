@@ -145,6 +145,7 @@ public class Functionalities {
         context.startActivity(intent);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void panic() {
         MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.car_alarm);
         int delay = 500;
@@ -159,7 +160,10 @@ public class Functionalities {
                 Thread.sleep(delay);
             } catch (InterruptedException e) {
                 mediaPlayer.stop();
-                context.startActivity(new Intent(context, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                if (flashlightOn) {
+                    flashlightService();
+                }
+                break;
             }
         }
     }
