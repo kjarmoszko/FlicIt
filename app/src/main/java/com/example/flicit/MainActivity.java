@@ -17,6 +17,7 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -87,6 +88,18 @@ public class MainActivity extends AppCompatActivity {
         lockButton = (ImageView) findViewById(R.id.lockButton); //db test
 
         viewAll(); //db test
+
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE;
+        decorView.setSystemUiVisibility(uiOptions);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE;
+        decorView.setSystemUiVisibility(uiOptions);
     }
 
     public void viewAll() { //db test
@@ -223,15 +236,14 @@ public class MainActivity extends AppCompatActivity {
     Blokada:
         blokowanie komórki z ekranem z przyciskiem odblokowania, dużym zegarem i ewentualnie że ktoś dzwonił, wysłał wiadomość
     Aplikacja:
-        przerobienie aplikacji na ekran głowny, uruchamianie po starcie i obsługa flica nawet po zamknięciu aplikacji
-        usunięcie górnego paska
         zrobienie na górze zegarka i siły sygnału telefnicznego
         ##checkfunctionalities wywalić do oddzielnej klasy?##
     Funkcjonalności:
+        -usprawnić:findMyPhone - po kilkukrotnym kliknięciu uruchamia kilka razy
         -usprawnić:włącz głośnomówiący po odebraniu telefonu - wymaga napisania swojej aplikacji dzwoniącej https://developer.android.com/guide/topics/connectivity/telecom/selfManaged
         -usprawnić:emergency call - ##jak się uda zrobic własną aplikację dzwoniącą wybrać czy dzwonić z głośnomówiącym czy nie, co prawdopodobnie zmieni bazę danych##
         -emergency sms - jakies powiadomienie że został wysłany sms ratunkowy, po obeznaniu się z smsami
-        ##obsługa budzika##
-        ##text to speech##
+            ##obsługa budzika cos promotor wspominał##
+            ##text to speech##
 */
 
