@@ -9,17 +9,23 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.AudioManager;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.telephony.CellSignalStrength;
+import android.telephony.PhoneStateListener;
+import android.telephony.SignalStrength;
+import android.telephony.TelephonyManager;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextClock;
 import android.widget.Toast;
 
 import com.example.flicit.database.DatabaseHelper;
@@ -33,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
     private ImageView flicButton;
     public static ImageView flashlightButton;
     public static ImageView muteButton;
+    private ImageView signalStrengthIcon;
+    private PhoneStateIconChanger phoneStateIconChanger;
+    private TelephonyManager telephonyManager;
+    private ImageView batteryStatusIcon;
+    private TextClock textClock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +56,12 @@ public class MainActivity extends AppCompatActivity {
         phoneButton = (ImageView) findViewById(R.id.phoneButton);
         flashlightButton = (ImageView) findViewById(R.id.flashlightButton);
         muteButton = (ImageView) findViewById(R.id.muteButton);
+        signalStrengthIcon = (ImageView) findViewById(R.id.signalStrengthIcon);
+        batteryStatusIcon = (ImageView) findViewById(R.id.batteryStatusIcon);
+        textClock = (TextClock) findViewById(R.id.clockTextView);
+
+        textClock.setFormat12Hour("hh:mm");
+
 
         flicButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +111,12 @@ public class MainActivity extends AppCompatActivity {
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE;
         decorView.setSystemUiVisibility(uiOptions);
+
+        phoneStateIconChanger = new PhoneStateIconChanger();
+        telephonyManager = (TelephonyManager) getSystemService(this.TELEPHONY_SERVICE);
+        telephonyManager.listen(phoneStateIconChanger, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+
+        registerReceiver(batteryBroadcastReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
 //        DatabaseHelper.getInstance(this).clearDb();
     }
@@ -156,13 +179,86 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case MODIFY_AUDIO:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        Functionalities.getInstance(MainActivity.this).speakerService();
+                    Functionalities.getInstance(MainActivity.this).speakerService();
                 } else {
                     Toast.makeText(this, "ModifyAudio Permission DENIED", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
     }
+
+    private class PhoneStateIconChanger extends PhoneStateListener {
+
+        public void onSignalStrengthsChanged(SignalStrength signalStrength) {
+            super.onSignalStrengthsChanged(signalStrength);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (signalStrength.getLevel() == CellSignalStrength.SIGNAL_STRENGTH_NONE_OR_UNKNOWN) {
+                    signalStrengthIcon.setImageResource(R.drawable.signal_0_bar_icon);
+                } else if (signalStrength.getLevel() >= CellSignalStrength.SIGNAL_STRENGTH_GREAT) {
+                    signalStrengthIcon.setImageResource(R.drawable.signal_4_bar_icon);
+                } else if (signalStrength.getLevel() >= CellSignalStrength.SIGNAL_STRENGTH_GOOD) {
+                    signalStrengthIcon.setImageResource(R.drawable.signal_3_bar_icon);
+                } else if (signalStrength.getLevel() >= CellSignalStrength.SIGNAL_STRENGTH_MODERATE) {
+                    signalStrengthIcon.setImageResource(R.drawable.signal_2_bar_icon);
+                } else if (signalStrength.getLevel() >= CellSignalStrength.SIGNAL_STRENGTH_POOR) {
+                    signalStrengthIcon.setImageResource(R.drawable.signal_1_bar_icon);
+                }
+            }
+
+        }
+
+    }
+
+    private void batteryChangeIcon(int level, int scale, boolean plugged) {
+        float batteryPower = level/(float)scale;
+//        Toast.makeText(this, level, Toast.LENGTH_LONG).show();
+        if (!plugged) {
+            if (batteryPower >= 0.95) {
+                batteryStatusIcon.setImageResource(R.drawable.battery_full_icon);
+            } else if (batteryPower >= 0.85) {
+                batteryStatusIcon.setImageResource(R.drawable.battery_90_icon);
+            } else if (batteryPower >= 0.75) {
+                batteryStatusIcon.setImageResource(R.drawable.battery_80_icon);
+            } else if (batteryPower >= 0.55) {
+                batteryStatusIcon.setImageResource(R.drawable.battery_60_icon);
+            } else if (batteryPower >= 0.45) {
+                batteryStatusIcon.setImageResource(R.drawable.battery_50_icon);
+            } else if (batteryPower >= 0.25) {
+                batteryStatusIcon.setImageResource(R.drawable.battery_30_icon);
+            } else if (batteryPower >= 0.15) {
+                batteryStatusIcon.setImageResource(R.drawable.battery_20_icon);
+            } else {
+                batteryStatusIcon.setImageResource(R.drawable.battery_low_icon);
+            }
+        } else {
+            if (batteryPower >= 0.95) {
+                batteryStatusIcon.setImageResource(R.drawable.battery_charging_full_icon);
+            } else if (batteryPower >= 0.85) {
+                batteryStatusIcon.setImageResource(R.drawable.battery_charging_90_icon);
+            } else if (batteryPower >= 0.75) {
+                batteryStatusIcon.setImageResource(R.drawable.battery_charging_80_icon);
+            } else if (batteryPower >= 0.55) {
+                batteryStatusIcon.setImageResource(R.drawable.battery_charging_60_icon);
+            } else if (batteryPower >= 0.45) {
+                batteryStatusIcon.setImageResource(R.drawable.battery_charging_50_icon);
+            } else if (batteryPower >= 0.25) {
+                batteryStatusIcon.setImageResource(R.drawable.battery_charging_30_icon);
+            } else {
+                batteryStatusIcon.setImageResource(R.drawable.battery_charging_20_icon);
+            }
+        }
+    }
+
+    private BroadcastReceiver batteryBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+            boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING;
+            int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+            int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+            batteryChangeIcon(level, scale, isCharging);
+        }
+    };
 
 
 //    public void makePhoneCall() {
@@ -235,7 +331,6 @@ public class MainActivity extends AppCompatActivity {
     Blokada:
         blokowanie komórki z ekranem z przyciskiem odblokowania, dużym zegarem i ewentualnie że ktoś dzwonił, wysłał wiadomość
     Aplikacja:
-        zrobienie na górze zegarka i siły sygnału telefnicznego
         ##checkfunctionalities wywalić do oddzielnej klasy?##
     Funkcjonalności:
         -usprawnić:findMyPhone - po kilkukrotnym kliknięciu uruchamia kilka razy

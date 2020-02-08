@@ -10,6 +10,33 @@
     android:paddingBottom="16dp"
     tools:context=".MainActivity">
 
+    <LinearLayout android:layout_weight="0.2">
+
+        <TextClock
+            android:id="@+id/clockTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
+            android:autoSizeTextType="uniform"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/signalStrengthIcon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:src="@drawable/signal_4_bar_icon" />
+
+        <ImageView
+            android:id="@+id/batteryStatusIcon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:src="@drawable/battery_low_icon" />
+
+    </LinearLayout>
+
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -40,14 +67,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/button_icon"/>
+            android:src="@drawable/button_icon" />
 
         <ImageView
             android:id="@+id/flashlightButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/flashlight_off_icon"/>
+            android:src="@drawable/flashlight_off_icon" />
 
     </TableRow>
 
@@ -68,8 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/lock_icon"/>
+            android:src="@drawable/lock_icon" />
     </TableRow>
-
 
 </TableLayout>
