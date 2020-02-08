@@ -4,9 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -54,9 +53,19 @@ public class ClickChangeActivity extends AppCompatActivity {
                     Flic flic = DatabaseHelper.getInstance(ClickChangeActivity.this).getFlic(mac);
                     flic.setName(flicNameEditText.getText().toString());
                     DatabaseHelper.getInstance(ClickChangeActivity.this).updateFlic(flic);
+                    flicNameEditText.clearFocus();
                     return true;
                 }
                 return false;
+            }
+        });
+
+        findViewById(R.id.activityChangeLayout).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard(v);
+                flicNameEditText.clearFocus();
+                return true;
             }
         });
     }
