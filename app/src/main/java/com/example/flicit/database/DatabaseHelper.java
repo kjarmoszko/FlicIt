@@ -13,8 +13,8 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
 
-    private static final int DATABASE_VERSION = 4;
-    private static final String DATABASE_NAME = "Button.db";
+    private static final int DATABASE_VERSION = 6;
+    private static final String DATABASE_NAME = "Flic.db";
 
     public static synchronized DatabaseHelper getInstance(Context context) {
         if (instance == null) {
@@ -23,8 +23,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return instance;
     }
 
-    public static class TableFlicButton implements BaseColumns {
-        public static final String NAME = "flic_button";
+    public static class TableFlic implements BaseColumns {
+        public static final String NAME = "flic";
         public static final String COLUMN_MAC = "mac";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_SINGLE_CLICK = "single_click";
@@ -40,13 +40,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         public static final String COLUMN_MESSAGE = "message";
     }
 
-    private static final String CREATE_FLIC_BUTTON_TABLE =
-            "CREATE TABLE " + TableFlicButton.NAME + " (" +
-                    TableFlicButton.COLUMN_MAC + " TEXT PRIMARY KEY," +
-                    TableFlicButton.COLUMN_NAME + " INTEGER," +
-                    TableFlicButton.COLUMN_SINGLE_CLICK + " INTEGER," +
-                    TableFlicButton.COLUMN_DOUBLE_CLICK + " INTEGER," +
-                    TableFlicButton.COLUMN_HOLD + " INTEGER);";
+    private static final String CREATE_FLIC_TABLE =
+            "CREATE TABLE " + TableFlic.NAME + " (" +
+                    TableFlic.COLUMN_MAC + " TEXT PRIMARY KEY," +
+                    TableFlic.COLUMN_NAME + " INTEGER," +
+                    TableFlic.COLUMN_SINGLE_CLICK + " INTEGER," +
+                    TableFlic.COLUMN_DOUBLE_CLICK + " INTEGER," +
+                    TableFlic.COLUMN_HOLD + " INTEGER);";
 
     private static final String CREATE_FUNCTION_TABLE =
             "CREATE TABLE " + TableFunction.NAME + " (" +
@@ -62,12 +62,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_FUNCTION_TABLE);
-        db.execSQL(CREATE_FLIC_BUTTON_TABLE);
+        db.execSQL(CREATE_FLIC_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TableFlicButton.NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TableFlic.NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TableFunction.NAME);
         onCreate(db);
     }
@@ -76,47 +76,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TableFunction.COLUMN_TYPE, "NONE");
+        contentValues.put(TableFunction.COLUMN_TYPE, "0");
 
         long functionId = db.insert(TableFunction.NAME, null, contentValues);
         return functionId;
     }
 
-    public long createFlicButton(String mac) {
+    public long createFlic(String mac) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TableFlicButton.COLUMN_MAC, mac);
-        contentValues.put(TableFlicButton.COLUMN_SINGLE_CLICK, createFunction());
-        contentValues.put(TableFlicButton.COLUMN_DOUBLE_CLICK, createFunction());
-        contentValues.put(TableFlicButton.COLUMN_HOLD, createFunction());
+        contentValues.put(TableFlic.COLUMN_MAC, mac);
+        contentValues.put(TableFlic.COLUMN_SINGLE_CLICK, createFunction());
+        contentValues.put(TableFlic.COLUMN_DOUBLE_CLICK, createFunction());
+        contentValues.put(TableFlic.COLUMN_HOLD, createFunction());
 
-        long flicButtonId = db.insert(TableFlicButton.NAME, null, contentValues);
-        return flicButtonId;
+        long flicId = db.insert(TableFlic.NAME, null, contentValues);
+        return flicId;
     }
 
-    public FlicButton getFlicButton(String mac) {
+    public Flic getFlic(String mac) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        FlicButton flicButton = new FlicButton();
-        String query = "SELECT * FROM " + TableFlicButton.NAME + " WHERE " + TableFlicButton.COLUMN_MAC + " LIKE ?";
+        Flic flic = new Flic();
+        String query = "SELECT * FROM " + TableFlic.NAME + " WHERE " + TableFlic.COLUMN_MAC + " LIKE ?";
         Cursor cursor = db.rawQuery(query, new String[]{mac});
 
         if(cursor != null) {
             cursor.moveToNext();
-            flicButton.setMac(cursor.getString(cursor.getColumnIndex(TableFlicButton.COLUMN_MAC)));
-            flicButton.setName(cursor.getString(cursor.getColumnIndex(TableFlicButton.COLUMN_NAME)));
-            flicButton.setSingleClick(cursor.getLong(cursor.getColumnIndex(TableFlicButton.COLUMN_SINGLE_CLICK)));
-            flicButton.setDoubleClick(cursor.getLong(cursor.getColumnIndex(TableFlicButton.COLUMN_DOUBLE_CLICK)));
-            flicButton.setHold(cursor.getLong(cursor.getColumnIndex(TableFlicButton.COLUMN_HOLD)));
+            flic.setMac(cursor.getString(cursor.getColumnIndex(TableFlic.COLUMN_MAC)));
+            flic.setName(cursor.getString(cursor.getColumnIndex(TableFlic.COLUMN_NAME)));
+            flic.setSingleClick(cursor.getLong(cursor.getColumnIndex(TableFlic.COLUMN_SINGLE_CLICK)));
+            flic.setDoubleClick(cursor.getLong(cursor.getColumnIndex(TableFlic.COLUMN_DOUBLE_CLICK)));
+            flic.setHold(cursor.getLong(cursor.getColumnIndex(TableFlic.COLUMN_HOLD)));
         }
-        return flicButton;
+        return flic;
     }
 
 
 
-    public List<Function> getAllFlicButtonFunctions(String mac) {
+    public List<Function> getAllFlicFunctions(String mac) {
         SQLiteDatabase db = this.getReadableDatabase();
         List<Function> functions = new ArrayList<Function>();
 
@@ -130,7 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private long getFlicForeignKey(String mac, int click) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String query = "SELECT * FROM " + TableFlicButton.NAME + " WHERE " + TableFlicButton.COLUMN_MAC + " LIKE ?";// + mac;
+        String query = "SELECT * FROM " + TableFlic.NAME + " WHERE " + TableFlic.COLUMN_MAC + " LIKE ?";// + mac;
         Cursor cursor = db.rawQuery(query,new String[] {mac});
 
         long functionId = -1;
@@ -139,13 +139,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             switch (click) {
                 case 0:
-                    functionId = cursor.getInt(cursor.getColumnIndex(TableFlicButton.COLUMN_HOLD));
+                    functionId = cursor.getInt(cursor.getColumnIndex(TableFlic.COLUMN_HOLD));
                     break;
                 case 1:
-                    functionId = cursor.getInt(cursor.getColumnIndex(TableFlicButton.COLUMN_SINGLE_CLICK));
+                    functionId = cursor.getInt(cursor.getColumnIndex(TableFlic.COLUMN_SINGLE_CLICK));
                     break;
                 case 2:
-                    functionId = cursor.getInt(cursor.getColumnIndex(TableFlicButton.COLUMN_DOUBLE_CLICK));
+                    functionId = cursor.getInt(cursor.getColumnIndex(TableFlic.COLUMN_DOUBLE_CLICK));
                     break;
             }
         }
@@ -185,14 +185,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public long updateFlicButton(FlicButton flicButton) {
+    public long updateFlic(Flic flic) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TableFlicButton.COLUMN_NAME, flicButton.getName());
-        String selection = TableFlicButton.COLUMN_MAC + " LIKE ?";
-        String[] selectionArgs = {flicButton.getMac()};
-        long result = db.update(TableFlicButton.NAME, contentValues, selection, selectionArgs);
+        contentValues.put(TableFlic.COLUMN_NAME, flic.getName());
+        String selection = TableFlic.COLUMN_MAC + " LIKE ?";
+        String[] selectionArgs = {flic.getMac()};
+        long result = db.update(TableFlic.NAME, contentValues, selection, selectionArgs);
         return result;
     }
 
@@ -286,24 +286,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return function;
     }
 
-    public void deleteFlicButton(String mac) {
+    public void deleteFlic(String mac) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        for(Function function : getAllFlicButtonFunctions(mac)){
+        for(Function function : getAllFlicFunctions(mac)){
             db.delete(TableFunction.NAME, TableFunction.COLUMN_ID + " LIKE ?", new String[] {String.valueOf(function.getId())});
         }
-        db.delete(TableFlicButton.NAME, TableFlicButton.COLUMN_MAC + " LIKE ?", new String[] {mac});
+        db.delete(TableFlic.NAME, TableFlic.COLUMN_MAC + " LIKE ?", new String[] {mac});
     }
 
 
     public Cursor getAllData() { //db test
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + TableFlicButton.NAME, null);
+        Cursor cursor = db.rawQuery("select * from " + TableFlic.NAME, null);
         return cursor;
     }
     public Cursor getAllFunction() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from " + TableFunction.NAME, null);
         return cursor;
+    }
+    public void clearDb() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TableFlic.NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TableFunction.NAME);
+        onCreate(db);
     }
 }

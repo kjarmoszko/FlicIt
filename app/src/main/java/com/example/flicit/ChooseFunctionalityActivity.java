@@ -10,11 +10,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.example.flicit.database.DatabaseHelper;
-import com.example.flicit.database.Function;
 
 public class ChooseFunctionalityActivity extends AppCompatActivity {
     Button flashlightButton, pickUpPhoneButton, changeVolumeButton, emergencyCallButton, emergencySmsButton;
@@ -26,6 +22,10 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
     private static final int MODIFY_AUDIO = 5;
     private static final int PHONE_STATE = 6;
     private static final int REQUEST_SMS = 7;
+
+    private static final int EMERGENCY_CALL = 1;
+    private static final int EMERGENCY_SMS = 2;
+
     private String functionId;
 
 
@@ -86,7 +86,7 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
     }
 
     public void noneButtonClicked(View v) {
-        functionality.putExtra("functionality", "0");
+        functionality.putExtra("functionality", FunctionType.NONE.getType());
         setResult(RESULT_OK, functionality);
         finish();
     }
@@ -95,38 +95,38 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST);
         } else {
-            functionality.putExtra("functionality", "1");
+            functionality.putExtra("functionality", FunctionType.FLASHLIGHT.getType());
             setResult(RESULT_OK, functionality);
             finish();
         }
     }
 
     public void flashButtonClicked(View v) {
-        functionality.putExtra("functionality", "3");
+        functionality.putExtra("functionality", FunctionType.FLASH.getType());
         setResult(RESULT_OK, functionality);
         finish();
     }
 
     public void soundAlarmButtonClicked(View v) {
-        functionality.putExtra("functionality", "4");
+        functionality.putExtra("functionality", FunctionType.SOUND_ALARM.getType());
         setResult(RESULT_OK, functionality);
         finish();
     }
 
     public void vibrateButtonClicked(View v) {
-        functionality.putExtra("functionality", "5");
+        functionality.putExtra("functionality", FunctionType.VIBRATE.getType());
         setResult(RESULT_OK, functionality);
         finish();
     }
 
     public void findPhoneClicked(View v) {
-        functionality.putExtra("functionality", "2");
+        functionality.putExtra("functionality", FunctionType.FIND_PHONE.getType());
         setResult(RESULT_OK, functionality);
         finish();
     }
 
     public void googleAssistantClicked(View v) {
-        functionality.putExtra("functionality", "6");
+        functionality.putExtra("functionality", FunctionType.GOOGLE_ASSISTANT.getType());
         setResult(RESULT_OK, functionality);
         finish();
     }
@@ -141,7 +141,7 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, PHONE_STATE);
         }
-        functionality.putExtra("functionality", "7");
+        functionality.putExtra("functionality", FunctionType.PICK_UP_PHONE.getType());
         setResult(RESULT_OK, functionality);
         finish();
     }
@@ -150,7 +150,7 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.MODIFY_AUDIO_SETTINGS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MODIFY_AUDIO_SETTINGS}, MODIFY_AUDIO);
         } else {
-            functionality.putExtra("functionality", "8");
+            functionality.putExtra("functionality", FunctionType.CHANGE_VOLUME.getType());
             setResult(RESULT_OK, functionality);
             finish();
         }
@@ -162,7 +162,7 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
         } else {
             Intent intent = new Intent(ChooseFunctionalityActivity.this, EmergencyPhoneActivity.class);
             intent.putExtra("functionId", functionId+",call");
-            startActivityForResult(intent, 1);
+            startActivityForResult(intent, EMERGENCY_CALL);
         }
     }
 
@@ -172,7 +172,7 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
         } else {
             Intent intent = new Intent(ChooseFunctionalityActivity.this, EmergencyPhoneActivity.class);
             intent.putExtra("functionId", functionId+",sms");
-            startActivityForResult(intent, 2);
+            startActivityForResult(intent, EMERGENCY_SMS);
         }
     }
 
@@ -229,13 +229,13 @@ public class ChooseFunctionalityActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case 1:
-                functionality.putExtra("functionality", "9");
+            case EMERGENCY_CALL:
+                functionality.putExtra("functionality", FunctionType.EMERGENCY_CALL.getType());
                 setResult(RESULT_OK, functionality);
                 finish();
                 break;
-            case 2:
-                functionality.putExtra("functionality", "10");
+            case EMERGENCY_SMS:
+                functionality.putExtra("functionality", FunctionType.EMERGENCY_SMS.getType());
                 setResult(RESULT_OK, functionality);
                 finish();
                 break;

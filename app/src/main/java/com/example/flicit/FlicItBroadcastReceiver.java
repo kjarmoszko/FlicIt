@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 
 import com.example.flicit.database.DatabaseHelper;
+import com.example.flicit.database.Function;
 
 import io.flic.lib.FlicBroadcastReceiver;
 import io.flic.lib.FlicButton;
@@ -21,38 +22,39 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
     @Override
     public void onButtonSingleOrDoubleClickOrHold(Context context, FlicButton button, boolean wasQueued, int timeDiff, boolean isSingleClick, boolean isDoubleClick, boolean isHold) {
         if (isSingleClick) {
+            FunctionType functionType = FunctionType.get(DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 1).getType());
             Toast.makeText(context, "Single Click", Toast.LENGTH_SHORT).show();
-            switch (DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 1).getType()) {
-                case "0":
+            switch (functionType) {
+                case NONE:
                     break;
-                case "1":
+                case FLASHLIGHT:
                     Functionalities.getInstance(context).flashlightService();
                     break;
-                case "2":
+                case FIND_PHONE:
                     Functionalities.getInstance(context).findPhone();
                     break;
-                case "3":
+                case FLASH:
                     Functionalities.getInstance(context).blinkFlash();
                     break;
-                case "4":
+                case SOUND_ALARM:
                     Functionalities.getInstance(context).soundAlarm();
                     break;
-                case "5":
+                case VIBRATE:
                     Functionalities.getInstance(context).vibrate();
                     break;
-                case "6":
+                case GOOGLE_ASSISTANT:
                     Functionalities.getInstance(context).runGoogleAssistant();
                     break;
-                case "7":
+                case PICK_UP_PHONE:
                     Functionalities.getInstance(context).pickUpCall();
                     break;
-                case "8":
+                case CHANGE_VOLUME:
                     Functionalities.getInstance(context).speakerService();
                     break;
-                case "9":
+                case EMERGENCY_CALL:
                     Functionalities.getInstance(context).emergencyCall(DatabaseHelper.getInstance(context).getFunction(button.getButtonId(),1).getNumber());
                     break;
-                case "10":
+                case EMERGENCY_SMS:
                     String number = DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 1).getNumber();
                     String message = DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 1).getMessage();
                     Functionalities.getInstance(context).emergencySms(number, message);
@@ -61,38 +63,39 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                     break;
             }
         } else if (isDoubleClick) {
+            FunctionType functionType = FunctionType.get(DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 2).getType());
             Toast.makeText(context, "Double Click", Toast.LENGTH_SHORT).show();
-            switch (DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 2).getType()) {
-                case "0":
+            switch (functionType) {
+                case NONE:
                     break;
-                case "1":
+                case FLASHLIGHT:
                     Functionalities.getInstance(context).flashlightService();
                     break;
-                case "2":
+                case FIND_PHONE:
                     Functionalities.getInstance(context).findPhone();
                     break;
-                case "3":
+                case FLASH:
                     Functionalities.getInstance(context).blinkFlash();
                     break;
-                case "4":
+                case SOUND_ALARM:
                     Functionalities.getInstance(context).soundAlarm();
                     break;
-                case "5":
+                case VIBRATE:
                     Functionalities.getInstance(context).vibrate();
                     break;
-                case "6":
+                case GOOGLE_ASSISTANT:
                     Functionalities.getInstance(context).runGoogleAssistant();
                     break;
-                case "7":
+                case PICK_UP_PHONE:
                     Functionalities.getInstance(context).pickUpCall();
                     break;
-                case "8":
+                case CHANGE_VOLUME:
                     Functionalities.getInstance(context).speakerService();
                     break;
-                case "9":
+                case EMERGENCY_CALL:
                     Functionalities.getInstance(context).emergencyCall(DatabaseHelper.getInstance(context).getFunction(button.getButtonId(),0).getNumber());
                     break;
-                case "10":
+                case EMERGENCY_SMS:
                     String number = DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 2).getNumber();
                     String message = DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 2).getMessage();
                     Functionalities.getInstance(context).emergencySms(number, message);
@@ -101,38 +104,39 @@ public class FlicItBroadcastReceiver extends FlicBroadcastReceiver {
                     break;
             }
         } else if (isHold) {
+            FunctionType functionType = FunctionType.get(DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 0).getType());
             Toast.makeText(context, "Hold", Toast.LENGTH_SHORT).show();
-            switch (DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 0).getType()) {
-                case "0":
+            switch (functionType) {
+                case NONE:
                     break;
-                case "1":
+                case FLASHLIGHT:
                     Functionalities.getInstance(context).flashlightService();
                     break;
-                case "2":
+                case FIND_PHONE:
                     Functionalities.getInstance(context).findPhone();
                     break;
-                case "3":
+                case FLASH:
                     Functionalities.getInstance(context).blinkFlash();
                     break;
-                case "4":
+                case SOUND_ALARM:
                     Functionalities.getInstance(context).soundAlarm();
                     break;
-                case "5":
+                case VIBRATE:
                     Functionalities.getInstance(context).vibrate();
                     break;
-                case "6":
+                case GOOGLE_ASSISTANT:
                     Functionalities.getInstance(context).runGoogleAssistant();
                     break;
-                case "7":
+                case PICK_UP_PHONE:
                     Functionalities.getInstance(context).pickUpCall();
                     break;
-                case "8":
+                case CHANGE_VOLUME:
                     Functionalities.getInstance(context).speakerService();
                     break;
-                case "9":
+                case EMERGENCY_CALL:
                     Functionalities.getInstance(context).emergencyCall(DatabaseHelper.getInstance(context).getFunction(button.getButtonId(),2).getNumber());
                     break;
-                case "10":
+                case EMERGENCY_SMS:
                     String number = DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 0).getNumber();
                     String message = DatabaseHelper.getInstance(context).getFunction(button.getButtonId(), 0).getMessage();
                     Functionalities.getInstance(context).emergencySms(number, message);

@@ -1,19 +1,19 @@
 package com.example.flicit.database;
 
-public class FlicButton {
+public class Flic {
     private String mac;
     private String name;
     private long singleClick;
     private long doubleClick;
     private long hold;
 
-    public FlicButton() {
+    public Flic() {
 
     }
-    public FlicButton(String mac) {
+    public Flic(String mac) {
         this.mac = mac;
     }
-    public FlicButton(String mac, String name) {
+    public Flic(String mac, String name) {
         this.mac = mac;
         this.name = name;
     }
@@ -56,5 +56,10 @@ public class FlicButton {
 
     public void setHold(long hold) {
         this.hold = hold;
+    }
+
+    @Override
+    public String toString() {
+        return mac;
     }
 }

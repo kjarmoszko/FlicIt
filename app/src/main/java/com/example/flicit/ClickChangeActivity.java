@@ -4,16 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.flicit.database.DatabaseHelper;
+import com.example.flicit.database.Flic;
 import com.example.flicit.database.Function;
 
 public class ClickChangeActivity extends AppCompatActivity {
     private Button singleClickButton;
     private Button doubleClickButton;
     private Button holdButton;
+    private Button deleteButton;
+    private EditText flicNameEditText;
     private String mac;
 
     @Override
@@ -24,9 +32,39 @@ public class ClickChangeActivity extends AppCompatActivity {
         singleClickButton = (Button) findViewById(R.id.singleButton);
         doubleClickButton = (Button) findViewById(R.id.doubleButton);
         holdButton = (Button) findViewById(R.id.holdButton);
+        flicNameEditText = (EditText) findViewById(R.id.flicNameEditText);
+        deleteButton = (Button) findViewById(R.id.deleteButton);
 
         Intent intent = getIntent();
         mac = intent.getExtras().getString("mac");
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteFlic();
+            }
+        });
+        refreshButtonNames();
+
+        flicNameEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_ENTER) {
+                    hideKeyboard(v);
+                    Flic flic = DatabaseHelper.getInstance(ClickChangeActivity.this).getFlic(mac);
+                    flic.setName(flicNameEditText.getText().toString());
+                    DatabaseHelper.getInstance(ClickChangeActivity.this).updateFlic(flic);
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        refreshButtonNames();
     }
 
     public void singleClick(View v) {
@@ -77,4 +115,36 @@ public class ClickChangeActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    private void deleteFlic() {
+        DatabaseHelper.getInstance(this).deleteFlic(mac);
+        finish();
+    }
+
+    private void refreshButtonNames(){
+        Flic flic = DatabaseHelper.getInstance(this).getFlic(mac);
+
+        String name = flic.getName();
+        if(name == null) {
+            flicNameEditText.setText("No name");
+        }
+        else {
+            flicNameEditText.setText(name);
+        }
+
+        Function singleClick = DatabaseHelper.getInstance(this).getFunction(flic.getSingleClick());
+        Function doubleClick = DatabaseHelper.getInstance(this).getFunction(flic.getDoubleClick());
+        Function hold = DatabaseHelper.getInstance(this).getFunction(flic.getHold());
+        singleClickButton.setText(FunctionType.get(singleClick.getType()).getName());
+        doubleClickButton.setText(FunctionType.get(doubleClick.getType()).getName());
+        holdButton.setText(FunctionType.get(hold.getType()).getName());
+    }
+
+    private void hideKeyboard(View view){
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if(inputMethodManager != null) {
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
 }

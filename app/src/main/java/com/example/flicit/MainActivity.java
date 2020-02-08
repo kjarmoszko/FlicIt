@@ -16,12 +16,14 @@ import android.database.Cursor;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.flicit.database.DatabaseHelper;
+import com.example.flicit.database.Function;
 
 public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 3;
@@ -92,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE;
         decorView.setSystemUiVisibility(uiOptions);
+
+//        DatabaseHelper.getInstance(this).clearDb();
     }
 
     @Override
@@ -106,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
         lockButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Cursor res = DatabaseHelper.getInstance(MainActivity.this).getAllData();
-                Cursor res = DatabaseHelper.getInstance(MainActivity.this).getAllFunction();
+                Cursor res = DatabaseHelper.getInstance(MainActivity.this).getAllData();
+//                Cursor res = DatabaseHelper.getInstance(MainActivity.this).getAllFunction();
                 if (res.getCount() == 0) {
                     //show massage
                     showMassage("Error", "No data");
@@ -228,11 +232,6 @@ public class MainActivity extends AppCompatActivity {
         pisanie i wysyłka wiadomości
         ramka po nieodczytanej wiadomości
     Manage Flic:
-        dodawanie nazwy Flica
-        usuwanie Flica
-        lista fliców a nie przyciski
-        jakieś ładniejsze menu z ikonami i może nadawaniem kolorów przyciskom
-        edycja funkcji Flica - przerobienie na listę pod rodzaje kliknięcia nazawa wybranej funkcji /prawdopodobnie potrzebny enum/
     Blokada:
         blokowanie komórki z ekranem z przyciskiem odblokowania, dużym zegarem i ewentualnie że ktoś dzwonił, wysłał wiadomość
     Aplikacja:
