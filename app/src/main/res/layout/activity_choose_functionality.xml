@@ -8,7 +8,7 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp"
     android:paddingBottom="16dp"
-    tools:context=".ChooseFunctionalityActivity">
+    tools:context=".flicmanagment.ChooseFunctionalityActivity">
 
     <Button
         android:layout_width="wrap_content"

@@ -18,13 +18,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:src="@raw/flic_img" />
-    </TableRow>
-    <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="No name"
             android:textSize="24dp"
             android:id="@+id/flicName"/>

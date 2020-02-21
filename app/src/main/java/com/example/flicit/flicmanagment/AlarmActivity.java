@@ -1,4 +1,4 @@
-package com.example.flicit;
+package com.example.flicit.flicmanagment;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.example.flicit.R;
 
 public class AlarmActivity extends AppCompatActivity {
     private ImageView doneButton;

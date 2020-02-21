@@ -8,13 +8,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:text="Contact name"
-        android:textAlignment="center"
-        android:textSize="24dp"
-        android:id="@+id/contactItem"/>
+        android:layout_height="match_parent"
+        android:id="@+id/callLogListView"/>
 
 </LinearLayout>

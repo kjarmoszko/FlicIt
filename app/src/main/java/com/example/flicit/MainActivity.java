@@ -29,7 +29,10 @@ import android.widget.TextClock;
 import android.widget.Toast;
 
 import com.example.flicit.database.DatabaseHelper;
-import com.example.flicit.database.Function;
+import com.example.flicit.flicmanagment.FlicConfig;
+import com.example.flicit.flicmanagment.FlicManageActivity;
+import com.example.flicit.flicmanagment.Functionalities;
+import com.example.flicit.phone.ContactListActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 3;
@@ -318,10 +321,10 @@ public class MainActivity extends AppCompatActivity {
 }
 /* TODO
     Dzwonienie:
-        rejest połączeń
         ramka przy słuchawce po nieodebranym połączeniu
         dodawanie/edycja kontaktów
         duża klawiatura numeryczna i dzwonienie z niej
+        -usprawnić: gdy ktoś dzwoni nie aktualizuje rejestru gdy go się przegląda
             ##ekran podczas dzwonienia##
     Wiadomości:
         lista wiadomości

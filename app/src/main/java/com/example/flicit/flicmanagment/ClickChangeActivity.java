@@ -1,4 +1,4 @@
-package com.example.flicit;
+package com.example.flicit.flicmanagment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.flicit.R;
 import com.example.flicit.database.DatabaseHelper;
 import com.example.flicit.database.Flic;
 import com.example.flicit.database.Function;

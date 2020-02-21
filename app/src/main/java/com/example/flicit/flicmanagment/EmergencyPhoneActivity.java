@@ -1,4 +1,4 @@
-package com.example.flicit;
+package com.example.flicit.flicmanagment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.flicit.R;
 import com.example.flicit.database.DatabaseHelper;
 import com.example.flicit.database.Function;
 

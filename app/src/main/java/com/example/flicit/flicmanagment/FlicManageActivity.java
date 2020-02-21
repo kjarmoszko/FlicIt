@@ -1,21 +1,17 @@
-package com.example.flicit;
+package com.example.flicit.flicmanagment;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.flicit.R;
 import com.example.flicit.database.DatabaseHelper;
 import com.example.flicit.database.Flic;
 

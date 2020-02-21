@@ -22,22 +22,22 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         <activity
-            android:name=".EmergencyPhoneActivity"
+            android:name=".flicmanagment.EmergencyPhoneActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AlarmActivity"
+            android:name=".flicmanagment.AlarmActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ContactListActivity"
+            android:name=".phone.ContactListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ChooseFunctionalityActivity"
+            android:name=".flicmanagment.ChooseFunctionalityActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ClickChangeActivity"
+            android:name=".flicmanagment.ClickChangeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".FlicManageActivity"
+            android:name=".flicmanagment.FlicManageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
@@ -51,7 +51,7 @@
         </activity>
 
         <receiver
-            android:name=".FlicItBroadcastReceiver"
+            android:name=".flicmanagment.FlicItBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

@@ -1,4 +1,4 @@
-package com.example.flicit;
+package com.example.flicit.flicmanagment;
 
 import android.content.Context;
 import android.os.Build;
@@ -7,7 +7,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 
 import com.example.flicit.database.DatabaseHelper;
-import com.example.flicit.database.Function;
 
 import io.flic.lib.FlicBroadcastReceiver;
 import io.flic.lib.FlicButton;

@@ -1,4 +1,4 @@
-package com.example.flicit;
+package com.example.flicit.flicmanagment;
 
 import java.util.Collections;
 import java.util.HashMap;

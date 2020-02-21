@@ -1,4 +1,4 @@
-package com.example.flicit;
+package com.example.flicit.flicmanagment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -16,6 +16,9 @@ import android.telephony.SmsManager;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+
+import com.example.flicit.MainActivity;
+import com.example.flicit.R;
 
 import java.util.ArrayList;
 
@@ -116,7 +119,7 @@ public class Functionalities {
         }
     }
 
-    protected void flashlightService() {
+    public void flashlightService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
             try {
@@ -205,7 +208,7 @@ public class Functionalities {
     }
 
 
-    protected void speakerService() {
+    public void speakerService() {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         if(audioManager.getStreamVolume(AudioManager.STREAM_RING) < audioManager.getStreamMaxVolume(AudioManager.STREAM_RING)) {
