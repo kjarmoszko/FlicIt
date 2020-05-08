@@ -45,7 +45,6 @@ public class CallLogFragment extends Fragment {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CONTACTS}, PICK_CONTACT);
         } else {
             contactMap = getContactsMap();
-
         }
         getCallLogs();
 
@@ -121,7 +120,7 @@ public class CallLogFragment extends Fragment {
                 break;
             case PICK_CONTACT:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    getAllContacts();
+                    contactMap = getContactsMap();
                 } else {
                     Toast.makeText(getContext(), "Pick Contact Permission DENIED", Toast.LENGTH_SHORT).show();
                 }

@@ -191,7 +191,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class PhoneStateIconChanger extends PhoneStateListener {
-
         public void onSignalStrengthsChanged(SignalStrength signalStrength) {
             super.onSignalStrengthsChanged(signalStrength);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -207,14 +206,11 @@ public class MainActivity extends AppCompatActivity {
                     signalStrengthIcon.setImageResource(R.drawable.signal_1_bar_icon);
                 }
             }
-
         }
-
     }
 
     private void batteryChangeIcon(int level, int scale, boolean plugged) {
         float batteryPower = level/(float)scale;
-//        Toast.makeText(this, level, Toast.LENGTH_LONG).show();
         if (!plugged) {
             if (batteryPower >= 0.95) {
                 batteryStatusIcon.setImageResource(R.drawable.battery_full_icon);
@@ -262,67 +258,10 @@ public class MainActivity extends AppCompatActivity {
             batteryChangeIcon(level, scale, isCharging);
         }
     };
-
-
-//    public void makePhoneCall() {
-//        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
-//        } else {
-//            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
-//        }
-//    }
-//
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        switch (requestCode) {
-//            case REQUEST_CALL:
-//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    makePhoneCall();
-//                } else {
-//                    Toast.makeText(this, "Call Phone Permission DENIED", Toast.LENGTH_SHORT).show();
-//                }
-//                break;
-//            case PICK_CONTACT:
-//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    getNumberFromContacts();
-//                } else {
-//                    Toast.makeText(this, "Pick Contact Permission DENIED", Toast.LENGTH_SHORT).show();
-//                }
-//                break;
-//        }
-//    }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        switch (requestCode) {
-//            case PICK_CONTACT:
-//                if (resultCode == Activity.RESULT_OK) {
-//                    Uri contactData = data.getData();
-//                    Cursor cursor = getContentResolver().query(contactData, null, null, null, null);
-//                    if (cursor.moveToFirst()) {
-//                        String id = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
-//                        Cursor phoneCursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-//                                null,
-//                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-//                                new String[]{id},
-//                                null);
-//                        if (phoneCursor.moveToFirst()) {
-//                            String number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-//                            dial = "tel:" + number;
-//                            makePhoneCall();
-//                        }
-//                    }
-//                }
-//                break;
-//        }
-//    }
 }
 /* TODO
     Dzwonienie:
         ramka przy słuchawce po nieodebranym połączeniu
-        dodawanie/edycja kontaktów
         duża klawiatura numeryczna i dzwonienie z niej
         -usprawnić: gdy ktoś dzwoni nie aktualizuje rejestru gdy go się przegląda
             ##ekran podczas dzwonienia##
@@ -331,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
         pisanie i wysyłka wiadomości
         ramka po nieodczytanej wiadomości
     Manage Flic:
+        dodać menu kontekstowe przy usuwaniu przycisku
     Blokada:
         blokowanie komórki z ekranem z przyciskiem odblokowania, dużym zegarem i ewentualnie że ktoś dzwonił, wysłał wiadomość
     Aplikacja:
